@@ -11,8 +11,13 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="register_title">Sign up to view your Wrapped!</string>
-    <string name="register_email">Email address</string>
-    <string name="register_password">Password</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
     <string name="register_confirm">Confirm Password</string>
     <string name="register_signup">Sign up</string>
+    <string name="welcome_message">Welcome! \nLog in or sign up to get started!</string>
+    <string name="login_title">Log in to view your Wrapped!</string>
+    <string name="login_button">Log In</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
