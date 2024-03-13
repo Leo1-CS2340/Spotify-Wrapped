@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,6 +20,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -49,15 +53,17 @@ public class RegisterFragment extends Fragment {
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateAndRegister();
+                String textEmail = email.getEditText().getText().toString();
+                String textPassword = password.getEditText().getText().toString();
+                String textConfirm = confirm.getEditText().getText().toString();
+                if (passwordValidated(textEmail, textPassword, textConfirm)) {
+                    registerUser(textEmail, textPassword);
+                }
             }
         });
     }
 
-    private void validateAndRegister() {
-        String textEmail = email.getEditText().getText().toString();
-        String textPassword = password.getEditText().getText().toString();
-        String textConfirm = confirm.getEditText().getText().toString();
+    private boolean passwordValidated(String textEmail, String textPassword, String textConfirm) {
         email.setError(null);
         password.setError(null);
         confirm.setError(null);
@@ -79,19 +85,15 @@ public class RegisterFragment extends Fragment {
             confirm.requestFocus();
             password.getEditText().getText().clear();
             confirm.getEditText().getText().clear();
-        } else if (textPassword.length() < 6) {
-            Toast.makeText(getActivity(), "Your password must be longer than 6 characters", Toast.LENGTH_LONG).show();
-            confirm.setError("Password is too short");
-            confirm.requestFocus();
         } else {
-            Log.d("Register","Everything is good");
-            registerUser(textEmail, textPassword);
+            return true;
         }
+        return false;
     }
 
-    private void registerUser(String email, String password) {
+    private void registerUser(String emailT, String passwordT) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(emailT, passwordT)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -99,9 +101,25 @@ public class RegisterFragment extends Fragment {
                             Toast.makeText(getActivity(), "User registered successfully", Toast.LENGTH_LONG).show();
                             FirebaseUser user = auth.getCurrentUser();
                             Log.d("Test", user.getEmail());
-                            // @Todo Change the activity here
+
+                            Fragment connectSpotify = new SpotifyAccountFragment();
+                            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                            ft.add(R.id.authentication_fragment_container, connectSpotify);
+                            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN);
+                            ft.addToBackStack(null);
+                            ft.commit();
                         } else {
-                            Toast.makeText(getActivity(), "Registration failed", Toast.LENGTH_LONG).show();
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthWeakPasswordException e) {
+                                password.setError("Your password is too weak");
+                                password.requestFocus();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                email.setError("There is an account with this email that exists already");
+                                email.requestFocus();
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 });
