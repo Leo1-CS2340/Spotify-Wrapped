@@ -4,4 +4,6 @@
     android:id="@+id/authentication_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.example.spotifywrapped.authentication.WelcomeFragment" />
+    android:name="com.example.spotifywrapped.authentication.WelcomeFragment"
+    android:background="@color/dark_gray"
+    />

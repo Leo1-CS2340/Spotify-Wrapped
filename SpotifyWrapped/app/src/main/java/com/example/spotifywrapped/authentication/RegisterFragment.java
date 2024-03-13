@@ -104,7 +104,7 @@ public class RegisterFragment extends Fragment {
 
                             Fragment connectSpotify = new SpotifyAccountFragment();
                             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                            ft.add(R.id.authentication_fragment_container, connectSpotify);
+                            ft.replace(R.id.authentication_fragment_container, connectSpotify);
                             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN);
                             ft.addToBackStack(null);
                             ft.commit();

@@ -50,7 +50,7 @@ public class WelcomeFragment extends Fragment {
             public void onClick(View v) {
                 Fragment login = new LoginFragment();
                 FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                ft.add(R.id.authentication_fragment_container, login);
+                ft.replace(R.id.authentication_fragment_container, login);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN);
                 ft.addToBackStack(null);
                 ft.commit();
@@ -62,7 +62,7 @@ public class WelcomeFragment extends Fragment {
             public void onClick(View v) {
                 Fragment login = new RegisterFragment();
                 FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                ft.add(R.id.authentication_fragment_container, login);
+                ft.replace(R.id.authentication_fragment_container, login);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN);
                 ft.addToBackStack(null);
                 ft.commit();
