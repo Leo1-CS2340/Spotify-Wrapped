@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +46,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FirebaseAuth.getInstance().useEmulator("10.0.2.2", 9099);
         email = view.findViewById(R.id.login_email);
         password = view.findViewById(R.id.login_password);
         Button login_button = view.findViewById(R.id.login_button);
@@ -59,6 +59,8 @@ public class LoginFragment extends Fragment {
         });
     }
 
+
+
     private void signInUser(String textEmail, String textPassword) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(textEmail, textPassword)
@@ -68,6 +70,12 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             Log.d("YAYYYY", "signInWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
+                            Fragment connectSpotify = new SpotifyAccountFragment();
+                            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+                            ft.replace(R.id.authentication_fragment_container, connectSpotify);
+                            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN);
+                            ft.addToBackStack(null);
+                            ft.commit();
                         } else {
                             Toast.makeText(getActivity(), "Authentication failed. Please try again.",
                                     Toast.LENGTH_SHORT).show();

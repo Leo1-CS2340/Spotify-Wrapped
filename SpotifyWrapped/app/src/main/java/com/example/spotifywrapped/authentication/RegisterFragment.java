@@ -45,7 +45,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FirebaseAuth.getInstance().useEmulator("10.0.2.2", 9099);
         email = view.findViewById(R.id.register_email);
         password = view.findViewById(R.id.register_password);
         confirm = view.findViewById(R.id.register_confirm);
