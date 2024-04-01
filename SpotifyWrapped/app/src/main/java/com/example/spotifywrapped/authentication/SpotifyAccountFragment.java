@@ -156,6 +156,7 @@ public class SpotifyAccountFragment extends Fragment {
                                         }
                                     }
                                 });
+                                correctSpotifyAccount = true;
                                 userData.put("name", jsonObject.get("display_name"));
                                 userData.put("spotify_id", jsonObject.get("id"));
                                 userData.put("last_updated", java.time.LocalDateTime.now().toString());
@@ -184,6 +185,129 @@ public class SpotifyAccountFragment extends Fragment {
                                                 Log.w("NOOO", "Error writing document", e);
                                             }
                                         });
+                                if (correctSpotifyAccount) {
+
+                                    mCall.enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            Log.d("HTTP", "Failed to fetch data: " + e);
+                                            Toast.makeText(requireActivity(), "Failed to fetch data, watch Logcat for more details",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
+                                            try {
+                                                final JSONObject jsonObject = new JSONObject(response.body().string());
+                                                JSONArray items = (JSONArray) jsonObject.get("items");
+                                                Log.d("Test", (String) jsonObject.toString());
+                                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                FirebaseUser user = auth.getCurrentUser();
+                                                Map<String, Object> userData = new HashMap<>();
+                                                int total = (int) jsonObject.get("total");
+                                                Song[] topFive = new Song[total];
+                                                for (int i = 0; i < total; i++) {
+                                                    JSONObject track = items.getJSONObject(i);
+                                                    JSONArray artists = (JSONArray) track.get("artists");
+                                                    JSONObject artist = (JSONObject) artists.get(0);
+                                                    JSONObject album = (JSONObject) track.get("album");
+                                                    Song song = new Song(track.get("name").toString(),
+                                                            artist.get("name").toString(),
+                                                            album.get("name").toString(),
+                                                            track.get("preview_url").toString(),
+                                                            (int) track.get("popularity"));
+                                                    topFive[i] = song;
+                                                }
+                                                List<Song> topFiveList = Arrays.asList(topFive);
+                                                userData.put("topFiveSongs", topFiveList);
+
+                                                db.collection("users").document(user.getEmail())
+                                                        .update(userData)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Toast.makeText(requireActivity(),
+                                                                        "Spotify data synced!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                Log.d("yay", "DocumentSnapshot successfully written!");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w("NOOO", "Error writing document", e);
+                                                            }
+                                                        });
+                                            } catch (JSONException e) {
+                                                Log.d("JSON", "Failed to parse data: " + e);
+                                                Toast.makeText(requireActivity(), "Failed to parse data, watch Logcat for more details",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                    aCall.enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            Log.d("HTTP", "Failed to fetch data: " + e);
+                                            Toast.makeText(requireActivity(), "Failed to fetch data, watch Logcat for more details",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
+                                            try {
+                                                final JSONObject jsonObject = new JSONObject(response.body().string());
+                                                JSONArray items = (JSONArray) jsonObject.get("items");
+                                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                FirebaseUser user = auth.getCurrentUser();
+                                                Map<String, Object> userData = new HashMap<>();
+                                                int total = (int) jsonObject.get("total");
+                                                Artist[] topFive = new Artist[total];
+                                                for (int i = 0; i < total; i++) {
+                                                    JSONObject artist = items.getJSONObject(i);
+                                                    JSONArray images = (JSONArray) artist.get("images");
+                                                    JSONObject image = (JSONObject) images.get(0);
+                                                    JSONArray genres = (JSONArray) artist.get("genres");
+                                                    String[] newGenres = new String[genres.length()];
+                                                    for (int j = 0; j < genres.length(); j++) {
+                                                        newGenres[j] = (String) genres.get(j);
+                                                    }
+                                                    List<String> genre = Arrays.asList(newGenres);
+                                                    Artist currArtist = new Artist(artist.get("name").toString(),
+                                                            image.get("url").toString(),
+                                                            genre,
+                                                            (int) artist.get("popularity"));
+                                                    topFive[i] = currArtist;
+                                                }
+                                                List<Artist> topFiveList = Arrays.asList(topFive);
+                                                userData.put("topFiveArtists", topFiveList);
+
+                                                db.collection("users").document(user.getEmail())
+                                                        .update(userData)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Toast.makeText(requireActivity(),
+                                                                        "Spotify data synced!",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                Log.d("yay", "DocumentSnapshot successfully written!");
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w("NOOO", "Error writing document", e);
+                                                            }
+                                                        });
+                                            } catch (JSONException e) {
+                                                Log.d("JSON", "Failed to parse data: " + e);
+                                                Toast.makeText(requireActivity(), "Failed to parse data, watch Logcat for more details",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                                
                             } catch (SpotifyMismatchException e) {
                                 correctSpotifyAccount = false;
                                 Toast.makeText(requireActivity(), "The Spotify account you linked is not connected to this account",
@@ -197,128 +321,6 @@ public class SpotifyAccountFragment extends Fragment {
                         }
                     });
 
-                    if (correctSpotifyAccount) {
-
-                        mCall.enqueue(new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                Log.d("HTTP", "Failed to fetch data: " + e);
-                                Toast.makeText(requireActivity(), "Failed to fetch data, watch Logcat for more details",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                try {
-                                    final JSONObject jsonObject = new JSONObject(response.body().string());
-                                    JSONArray items = (JSONArray) jsonObject.get("items");
-                                    Log.d("Test", (String) jsonObject.toString());
-                                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    Map<String, Object> userData = new HashMap<>();
-                                    int total = (int) jsonObject.get("total");
-                                    Song[] topFive = new Song[total];
-                                    for (int i = 0; i < total; i++) {
-                                        JSONObject track = items.getJSONObject(i);
-                                        JSONArray artists = (JSONArray) track.get("artists");
-                                        JSONObject artist = (JSONObject) artists.get(0);
-                                        JSONObject album = (JSONObject) track.get("album");
-                                        Song song = new Song(track.get("name").toString(),
-                                                artist.get("name").toString(),
-                                                album.get("name").toString(),
-                                                track.get("preview_url").toString(),
-                                                (int) track.get("popularity"));
-                                        topFive[i] = song;
-                                    }
-                                    List<Song> topFiveList = Arrays.asList(topFive);
-                                    userData.put("topFiveSongs", topFiveList);
-
-                                    db.collection("users").document(user.getEmail())
-                                            .update(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Toast.makeText(requireActivity(),
-                                                            "Spotify data synced!",
-                                                            Toast.LENGTH_SHORT).show();
-                                                    Log.d("yay", "DocumentSnapshot successfully written!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("NOOO", "Error writing document", e);
-                                                }
-                                            });
-                                } catch (JSONException e) {
-                                    Log.d("JSON", "Failed to parse data: " + e);
-                                    Toast.makeText(requireActivity(), "Failed to parse data, watch Logcat for more details",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        aCall.enqueue(new Callback() {
-                            @Override
-                            public void onFailure(Call call, IOException e) {
-                                Log.d("HTTP", "Failed to fetch data: " + e);
-                                Toast.makeText(requireActivity(), "Failed to fetch data, watch Logcat for more details",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                try {
-                                    final JSONObject jsonObject = new JSONObject(response.body().string());
-                                    JSONArray items = (JSONArray) jsonObject.get("items");
-                                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    Map<String, Object> userData = new HashMap<>();
-                                    int total = (int) jsonObject.get("total");
-                                    Artist[] topFive = new Artist[total];
-                                    for (int i = 0; i < total; i++) {
-                                        JSONObject artist = items.getJSONObject(i);
-                                        JSONArray images = (JSONArray) artist.get("images");
-                                        JSONObject image = (JSONObject) images.get(0);
-                                        JSONArray genres = (JSONArray) artist.get("genres");
-                                        String[] newGenres = new String[genres.length()];
-                                        for (int j = 0; j < genres.length(); j++) {
-                                            newGenres[j] = (String) genres.get(j);
-                                        }
-                                        List<String> genre = Arrays.asList(newGenres);
-                                        Artist currArtist = new Artist(artist.get("name").toString(),
-                                                image.get("url").toString(),
-                                                genre,
-                                                (int) artist.get("popularity"));
-                                        topFive[i] = currArtist;
-                                    }
-                                    List<Artist> topFiveList = Arrays.asList(topFive);
-                                    userData.put("topFiveArtists", topFiveList);
-
-                                    db.collection("users").document(user.getEmail())
-                                            .update(userData)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Toast.makeText(requireActivity(),
-                                                            "Spotify data synced!",
-                                                            Toast.LENGTH_SHORT).show();
-                                                    Log.d("yay", "DocumentSnapshot successfully written!");
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.w("NOOO", "Error writing document", e);
-                                                }
-                                            });
-                                } catch (JSONException e) {
-                                    Log.d("JSON", "Failed to parse data: " + e);
-                                    Toast.makeText(requireActivity(), "Failed to parse data, watch Logcat for more details",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
                     break;
 
                 // Auth flow returned an error
