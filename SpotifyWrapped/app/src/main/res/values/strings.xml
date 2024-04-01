@@ -10,4 +10,14 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="register_title">Sign up to view your Wrapped!</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="register_confirm">Confirm Password</string>
+    <string name="register_signup">Sign up</string>
+    <string name="welcome_message">Welcome! \nLog in or sign up to get started!</string>
+    <string name="login_title">Log in to view your Wrapped!</string>
+    <string name="login_button">Log In</string>
+    <string name="connect_title">Connect your Spotify Account!</string>
+    <string name="connect_button">Connect</string>
 </resources>
