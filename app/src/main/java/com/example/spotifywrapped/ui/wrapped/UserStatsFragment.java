@@ -1,4 +1,4 @@
-package com.example.spotifywrapped;
+package com.example.spotifywrapped.ui.wrapped;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.spotifywrapped.R;
+import com.example.spotifywrapped.UserStatAdapter;
 import com.example.spotifywrapped.data_classes.Stat;
 
 import java.util.ArrayList;

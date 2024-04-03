@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
+import com.example.spotifywrapped.ui.wrapped.UserStatsFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -13,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifywrapped.databinding.ActivityMainBinding;
 
@@ -27,38 +27,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.fragment_user_stats);
+        setContentView(binding.getRoot());
 
         //RecyclerView recyclerview = findViewById(R.id.feedRV);
 
-//        if (savedInstanceState == null) {
-//            // Load your fragment here
-//            UserStatsFragment fragment = new UserStatsFragment();
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.drawer_layout, fragment)
-//                    .commit();
-//        }
-//
-//
-//        setSupportActionBar(binding.appBarMain.toolbar);
-//        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//        DrawerLayout drawer = binding.drawerLayout;
-//        NavigationView navigationView = binding.navView;
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-//        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-//                .setOpenableLayout(drawer)
-//                .build();
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView, navController);
+        //if (savedInstanceState == null) {
+            // Load your fragment here
+        //    UserStatsFragment fragment = new UserStatsFragment();
+        //    getSupportFragmentManager().beginTransaction()
+        //            .replace(R.id.drawer_layout, fragment)
+        //            .commit();
+        //}
+
+
+        setSupportActionBar(binding.appBarMain.toolbar);
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_user_stats, R.id.nav_slideshow)
+                .setOpenableLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
     @Override
