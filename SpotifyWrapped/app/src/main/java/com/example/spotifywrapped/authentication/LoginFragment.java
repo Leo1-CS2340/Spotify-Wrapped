@@ -14,17 +14,22 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.spotifywrapped.R;
+import com.example.spotifywrapped.data_classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginFragment extends Fragment {
 
     private TextInputLayout email;
     private TextInputLayout password;
+    public User currentUser;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -70,12 +75,25 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             Log.d("YAYYYY", "signInWithEmail:success");
                             FirebaseUser user = auth.getCurrentUser();
-                            Fragment connectSpotify = new SpotifyAccountFragment();
-                            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                            ft.replace(R.id.authentication_fragment_container, connectSpotify);
-                            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_OPEN);
-                            ft.addToBackStack(null);
-                            ft.commit();
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            DocumentReference docRef = db.collection("users").document(user.getEmail());
+                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d("Hello", "DocumentSnapshot data: " + document.getData());
+                                            User currentuser = new User(document);
+                                            Log.d("HELLO", currentuser.toString());
+                                        } else {
+                                            Log.d("HELLO", "No such document");
+                                        }
+                                    } else {
+                                        Log.d("HELLO", "get failed with ", task.getException());
+                                    }
+                                }
+                            });
                         } else {
                             Toast.makeText(getActivity(), "Authentication failed. Please try again.",
                                     Toast.LENGTH_SHORT).show();

@@ -307,7 +307,7 @@ public class SpotifyAccountFragment extends Fragment {
                                         }
                                     });
                                 }
-                                
+
                             } catch (SpotifyMismatchException e) {
                                 correctSpotifyAccount = false;
                                 Toast.makeText(requireActivity(), "The Spotify account you linked is not connected to this account",
