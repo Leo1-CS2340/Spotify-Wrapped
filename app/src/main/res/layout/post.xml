@@ -62,7 +62,8 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/like"
             android:contentDescription="@string/like_button"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textSize="8sp" />
 
         <Button
             android:id="@+id/comment_button"
@@ -73,7 +74,8 @@
             android:layout_toEndOf="@id/like_button"
             android:background="@drawable/comment"
             android:contentDescription="@string/comment_button"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textSize="8sp" />
     </LinearLayout>
 
     <!-- Comments Button -->

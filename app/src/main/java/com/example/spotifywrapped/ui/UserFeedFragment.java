@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifywrapped.FeedAdapter;
 import com.example.spotifywrapped.R;
+import com.example.spotifywrapped.data_classes.Post;
 import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.data_classes.Wrapped;
@@ -28,6 +29,7 @@ public class UserFeedFragment extends Fragment {
 
     List<User> following;
 
+    List<Post> feedPosts = new ArrayList<>();
     RecyclerView feed;
 
     FeedAdapter adapter;
@@ -41,6 +43,8 @@ public class UserFeedFragment extends Fragment {
     User user1;
     User user2;
     User user3;
+
+    User masterUser;
 
     private void setDummyData() {
         topArtists = new ArrayList<>();
@@ -59,6 +63,13 @@ public class UserFeedFragment extends Fragment {
         User user1 = new User("1", "adam", wrap);
         User user2 = new User("2", "bob", wrap);
         User user3 = new User("3", "caitlyn", wrap);
+
+        masterUser = new User("4", "alex", wrap);
+
+        user1.addPost();
+        user2.addPost();
+        user3.addPost();
+
         following.add(user1);
         following.add(user2);
         following.add(user3);
@@ -70,7 +81,10 @@ public class UserFeedFragment extends Fragment {
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
         feed = view.findViewById(R.id.feedRV);
         feed.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        adapter = new FeedAdapter(following);
+        for (User u : following) {
+            feedPosts.addAll(u.getPosts());
+        }
+        adapter = new FeedAdapter(feedPosts, masterUser);
         feed.setAdapter(adapter);
         Log.d("btn", "pressed");
         Log.d("view", "created");

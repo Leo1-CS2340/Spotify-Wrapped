@@ -1,5 +1,6 @@
 package com.example.spotifywrapped.data_classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -13,10 +14,14 @@ public class User {
     private List<User> followers;
     private List<User> following;
 
+    public List<Post> likedPosts;
+
     public User(String userId, String name, Wrapped wrap) {
         this.userId = userId;
         this.name = name;
         this.wrap = wrap;
+        this.posts = new ArrayList<>();
+        this.likedPosts = new ArrayList<>();
     }
 
 
@@ -43,6 +48,21 @@ public class User {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public void addPost() {
+        this.posts.add(new Post(this));
+    }
+
+    public List<Post> getLikedPosts() {
+        return this.likedPosts;
+    }
+
+    public void addLikedPost(Post post) {
+        likedPosts.add(post);
+    }
+    public void removeLikedPost(Post post) {
+        likedPosts.remove(post);
     }
 
     public List<User> getFollowers() {
