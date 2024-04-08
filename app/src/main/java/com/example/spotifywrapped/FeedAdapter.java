@@ -1,5 +1,8 @@
 package com.example.spotifywrapped;
 
+import static java.security.AccessController.getContext;
+
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -11,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +23,9 @@ import com.example.spotifywrapped.data_classes.Post;
 import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.data_classes.Wrapped;
+import com.example.spotifywrapped.ui.wrapped.CommentFragment;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,9 +39,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private User masterUser;
     Context context;
 
-    public FeedAdapter(List<Post> feedPosts, User masterUser) {
+    public FeedAdapter(List<Post> feedPosts, User masterUser,Context context) {
         this.feedPosts = feedPosts;
         this.masterUser = masterUser;
+        this.context = context;
     }
 
     @NonNull
@@ -80,6 +89,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
                 notifyItemChanged(holder.getAdapterPosition());
             }
         });
+
+        holder.openCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(context);
+                CommentFragment commentFragment = new CommentFragment(post.getComments());
+                View commentView = LayoutInflater.from(context).inflate(R.layout.comment_section, null);
+                dialog.setContentView(commentView);
+                dialog.show();
+
+            }
+        });
+
     }
 
     private List<Stat> statify(List<String> list) {
@@ -106,7 +128,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         RecyclerView minutes;
 
         Button likeButton;
-        Button commentButton;
+        Button openCommentsButton;
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
             pfp = itemView.findViewById(R.id.profile_picture);
@@ -116,7 +138,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             topSongs = itemView.findViewById(R.id.rvTopSongs);
             minutes = itemView.findViewById(R.id.rvMinutesListened);
             likeButton = itemView.findViewById(R.id.like_button);
-            commentButton = itemView.findViewById(R.id.comment_button);
+            openCommentsButton = itemView.findViewById(R.id.comment_button);
         }
     }
 }

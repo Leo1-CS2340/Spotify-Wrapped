@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/feed"
-        android:name="com.example.spotifywrapped.ui.UserFeedFragment"
+        android:name="com.example.spotifywrapped.ui.wrapped.UserFeedFragment"
         android:label="@string/Feed"
         tools:layout="@layout/feed_fragment" />
 </navigation>

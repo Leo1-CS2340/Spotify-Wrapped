@@ -11,6 +11,11 @@ public class Post {
     private String caption;
     private Date date;
     private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     private List<Like> likes;
     private int likeCount = 0;
 

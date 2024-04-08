@@ -1,5 +1,6 @@
-package com.example.spotifywrapped.ui;
+package com.example.spotifywrapped.ui.wrapped;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.example.spotifywrapped.ui.wrapped.UserStatsFragment;
 import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
+import android.widget.Button;
 
 public class UserFeedFragment extends Fragment {
 
@@ -84,8 +86,10 @@ public class UserFeedFragment extends Fragment {
         for (User u : following) {
             feedPosts.addAll(u.getPosts());
         }
-        adapter = new FeedAdapter(feedPosts, masterUser);
+        Context context = getContext();
+        adapter = new FeedAdapter(feedPosts, masterUser, context);
         feed.setAdapter(adapter);
+
         Log.d("btn", "pressed");
         Log.d("view", "created");
         return view;
