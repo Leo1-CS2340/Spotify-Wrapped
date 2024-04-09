@@ -87,7 +87,7 @@ public class UserFeedFragment extends Fragment {
             feedPosts.addAll(u.getPosts());
         }
         Context context = getContext();
-        adapter = new FeedAdapter(feedPosts, masterUser, context);
+        adapter = new FeedAdapter(feedPosts, masterUser, context, this);
         feed.setAdapter(adapter);
 
         Log.d("btn", "pressed");

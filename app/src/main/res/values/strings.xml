@@ -16,4 +16,6 @@
     <string name="like_button">Like Button</string>
     <string name="user_stats">User Stats</string>
     <string name="Feed">Feed</string>
+    <string name="submit">submit</string>
+    <string name="comments">Comments</string>
 </resources>

@@ -22,6 +22,8 @@ public class Post {
     public Post(User user) {
         this.user = user;
         this.likes = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        comments.add(new Comment("1", "e", new Date()));
     }
 
     public void addLike(User user, Date date) {

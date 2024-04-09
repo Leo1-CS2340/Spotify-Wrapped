@@ -28,17 +28,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_section,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment,parent,false);
         return new CommentAdapter.CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+
         Comment comment = comments.get(position);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println("comment " + comment.getUserId() + " " + comment.getText() + " " + comment.getDate());
         holder.usernameTV.setText(comment.getUserId());
         holder.commentTV.setText(comment.getText());
         holder.dateTV.setText(sdf.format(comment.getDate()));
+
 //        holder.commentButton.setOnClickListener(
 //                new View.OnClickListener() {
 //                    public void onClick(View v) {
@@ -71,7 +74,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentTV = itemView.findViewById(R.id.commentTV);
             dateTV = itemView.findViewById(R.id.dateTV);
             //commentButton = itemView.findViewById(R.id.comment_button);
-            textInput = itemView.findViewById(R.id.editTextComment);
+            //textInput = itemView.findViewById(R.id.editTextComment);
         }
+
     }
 }

@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,12 +39,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private List<Stat> stats;
 
     private User masterUser;
+
+    Fragment feedFragment;
     Context context;
 
-    public FeedAdapter(List<Post> feedPosts, User masterUser,Context context) {
+    public FeedAdapter(List<Post> feedPosts, User masterUser,Context context, Fragment feedFragment) {
         this.feedPosts = feedPosts;
         this.masterUser = masterUser;
         this.context = context;
+        this.feedFragment = feedFragment;
     }
 
     @NonNull
@@ -93,13 +98,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         holder.openCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(context);
-                CommentFragment commentFragment = new CommentFragment(post.getComments());
-                View commentView = LayoutInflater.from(context).inflate(R.layout.comment_section, null);
-                dialog.setContentView(commentView);
-                dialog.show();
+                DialogFragment commentFragment = new CommentFragment(post.getComments(), holder.itemView.getContext());
+                //Dialog dialog = new Dialog(holder.itemView.getContext());
+                //CommentFragment commentFragment = new CommentFragment(post.getComments(), holder.itemView.getContext());
+                //System.out.println(post.getComments().toString());
+                //View commentView = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.comment_section, null);
+                //dialog.setContentView(commentFragment);
+                //dialog.show();
+                commentFragment.show(feedFragment.getParentFragmentManager(), "comments");
 
             }
+
+
         });
 
     }
