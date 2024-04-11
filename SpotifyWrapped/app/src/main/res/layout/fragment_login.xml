@@ -80,7 +80,7 @@
         android:id="@+id/login_button"
         android:layout_width="179dp"
         android:layout_height="69dp"
-        android:layout_marginBottom="268dp"
+        android:layout_marginBottom="168dp"
         android:backgroundTint="@color/green"
         android:fontFamily="@font/gothic_a1"
         android:text="@string/login_button"
@@ -90,6 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_password"
         tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
