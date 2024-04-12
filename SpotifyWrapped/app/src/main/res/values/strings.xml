@@ -24,4 +24,5 @@
     <string name="delete_account">Delete account</string>
     <string name="log_out">Log out</string>
     <string name="account_settings">Account Settings</string>
+    <string name="hey_top_artist">Hey, top artist</string>
 </resources>

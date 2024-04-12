@@ -31,7 +31,7 @@ public class LoginFragment extends Fragment {
 
     private TextInputLayout email;
     private TextInputLayout password;
-    public User currentUser;
+    public static User currentUser;
 
     public LoginFragment() {
         // Required empty public constructor

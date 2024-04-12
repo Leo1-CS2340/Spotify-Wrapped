@@ -1,5 +1,7 @@
 package com.example.spotifywrapped.data_classes;
 
+import androidx.annotation.NonNull;
+
 public class Song {
     private final String name;
     private final String artist;
@@ -36,5 +38,11 @@ public class Song {
 
     public int getPopularity() {
         return popularity;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name + " apart of toString";
     }
 }

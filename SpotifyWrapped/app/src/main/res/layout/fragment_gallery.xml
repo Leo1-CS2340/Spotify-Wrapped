@@ -36,12 +36,14 @@
             android:layout_marginTop="100dp"/>
 
         <!-- Top 5 Songs and Top 5 Artists -->
+
+        <!-- Groovy Lines -->
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/textViewTitle"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -63,11 +65,43 @@
 
                 <TextView
                     android:id="@+id/textViewSong1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Song 1"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/textViewSong2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Song 2"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/textViewSong3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Song 3"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/textViewSong4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Song 4"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/textViewSong5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Song 5"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
 
                 <!-- Add placeholders for remaining songs -->
 
@@ -85,18 +119,55 @@
                     android:id="@+id/textViewTopArtists"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Top 5 Artists:"
+                    android:text="Top Artist:"
                     android:textColor="#1DB954"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textViewArtist1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="186dp"
                     android:layout_height="wrap_content"
-                    android:text="Hey, top artist"
+                    android:text="Artist 1"
+                    android:textAlignment="textEnd"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewArtist2"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Artist 2"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    android:textSize="10sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewArtist3"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Artist 3"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    android:textSize="10sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewArtist4"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Artist 4"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    android:textSize="10sp" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewArtist5"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Artist 5"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:textColor="@android:color/white"-->
+<!--                    android:textSize="10sp" />-->
 
                 <!-- Add placeholders for remaining artists -->
 
@@ -104,7 +175,6 @@
 
         </LinearLayout>
 
-        <!-- Groovy Lines -->
         <View
             android:id="@+id/line1"
             android:layout_width="200dp"
