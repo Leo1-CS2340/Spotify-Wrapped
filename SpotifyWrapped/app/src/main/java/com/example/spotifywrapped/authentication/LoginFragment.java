@@ -1,5 +1,6 @@
 package com.example.spotifywrapped.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.spotifywrapped.MainActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.data_classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -86,6 +88,8 @@ public class LoginFragment extends Fragment {
                                             Log.d("Hello", "DocumentSnapshot data: " + document.getData());
                                             User currentuser = new User(document);
                                             Log.d("HELLO", currentuser.toString());
+                                            Intent i = new Intent(getContext(), MainActivity.class);
+                                            startActivity(i);
                                         } else {
                                             Log.d("HELLO", "No such document");
                                         }

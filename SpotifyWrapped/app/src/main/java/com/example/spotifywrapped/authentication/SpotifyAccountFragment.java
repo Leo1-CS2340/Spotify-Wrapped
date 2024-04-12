@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.spotifywrapped.MainActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.custom_exceptions.SpotifyMismatchException;
 import com.example.spotifywrapped.data_classes.Artist;
 import com.example.spotifywrapped.data_classes.Song;
+import com.example.spotifywrapped.data_classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -291,6 +293,25 @@ public class SpotifyAccountFragment extends Fragment {
                                                                         "Spotify data synced!",
                                                                         Toast.LENGTH_SHORT).show();
                                                                 Log.d("yay", "DocumentSnapshot successfully written!");
+                                                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            DocumentSnapshot document = task.getResult();
+                                                                            if (document.exists()) {
+                                                                                Log.d("Hello", "DocumentSnapshot data: " + document.getData());
+                                                                                User currentuser = new User(document);
+                                                                                Log.d("HELLO", currentuser.toString());
+                                                                                Intent i = new Intent(getContext(), MainActivity.class);
+                                                                                startActivity(i);
+                                                                            } else {
+                                                                                Log.d("HELLO", "No such document");
+                                                                            }
+                                                                        } else {
+                                                                            Log.d("HELLO", "get failed with ", task.getException());
+                                                                        }
+                                                                    }
+                                                                });
                                                             }
                                                         })
                                                         .addOnFailureListener(new OnFailureListener() {
