@@ -23,7 +23,25 @@ public class User {
 
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public ArrayList<Artist> getTopFiveArtists() {
+        return topFiveArtists;
+    }
+
+    public String getProfile_picture() {
+        return profile_picture;
+    }
+
+    public String getSpotify_id() {
+        return spotify_id;
+    }
+
+    public ArrayList<Song> getTopFiveSongs() {
+        return topFiveSongs;
+    }
 
     @Override
     public String toString() {
