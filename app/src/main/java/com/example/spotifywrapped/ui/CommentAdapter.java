@@ -22,6 +22,7 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     List<Comment> comments;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     public CommentAdapter(List<Comment> comments) {
         this.comments = comments;
     }
@@ -36,25 +37,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
 
         Comment comment = comments.get(position);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        System.out.println("comment " + comment.getUserId() + " " + comment.getText() + " " + comment.getDate());
+        System.out.println("comment userid: " + comment.getUserId() + " comment text: " + comment.getText() + "comment date: " + comment.getDate());
         holder.usernameTV.setText(comment.getUserId());
         holder.commentTV.setText(comment.getText());
-        holder.dateTV.setText(sdf.format(comment.getDate()));
-
-//        holder.commentButton.setOnClickListener(
-//                new View.OnClickListener() {
-//                    public void onClick(View v) {
-//                        if (holder.textInput.getText()!= null) {
-//                            String str = holder.textInput.getText().toString();
-//                            Comment newComment = new Comment("username", str, new Date());
-//                            comments.add(newComment);
-//                            notifyItemInserted(comments.size() - 1);
-//                            holder.textInput.setText("");
-//                        }
-//                    }
-//                }
-//        );
+        holder.dateTV.setText(comment.getDate());
     }
 
     @Override
@@ -66,14 +52,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView usernameTV;
         TextView commentTV;
         TextView dateTV;
-        //Button commentButton;
+        Button commentButton;
         EditText textInput;
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameTV = itemView.findViewById(R.id.usernameTV);
             commentTV = itemView.findViewById(R.id.commentTV);
             dateTV = itemView.findViewById(R.id.dateTV);
-            //commentButton = itemView.findViewById(R.id.comment_button);
+//            commentButton = itemView.findViewById(R.id.comment_button);
             //textInput = itemView.findViewById(R.id.editTextComment);
         }
 

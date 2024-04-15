@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,43 +17,63 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifywrapped.FeedAdapter;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.data_classes.Comment;
+import com.example.spotifywrapped.data_classes.Post;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.ui.CommentAdapter;
+import com.example.spotifywrapped.viewmodel.viewmodel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CommentFragment extends DialogFragment {
 
 
 
-    public CommentFragment(List<Comment> comments, Context context) {
-        this.comments = comments;
+    public CommentFragment(Post post, Context context, viewmodel vm, User user) {
+        this.comments = post.getComments();
         this.context = context;
+        this.post = post;
+        this.vm = vm;
+        this.user = user;
     }
+
+    private viewmodel vm;
+
+    private User user;
 
     Context context;
     RecyclerView commentView;
     CommentAdapter adapter;
+    Post post;
     List<Comment> comments;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    SharedPreferences sp;
 
-    private void addComments(String str) {
-        Log.d("comment", "addComments() called");
-        Comment newComment = new Comment("username", str, new Date());
-        comments.add(newComment);
+    private void addComments(String str, viewmodel vm) {
+        Log.d("comment", "new Comment added");
+        Comment newComment = new Comment(user.getUserId(), str, sdf.format(new Date()));
+        post.getComments().add(newComment);
+        vm.updatePost(post);
+        vm.addCommentedPosts(post);
+        //vm.updateCommentedPosts(user);
+//        int size = vm.getCommentedPostsLiveData().getValue().size();
+//        Log.d("commentedPosts update", vm.getCommentedPostsLiveData().getValue().get(size - 1).getPostId());
         adapter.notifyDataSetChanged();
     }
-
     @NonNull
-    @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -66,11 +87,11 @@ public class CommentFragment extends DialogFragment {
         commentButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        Log.d("Button prese", "butt");
+                        Log.d("submit button", "clicked submit");
                         EditText text = view.findViewById(R.id.editTextComment);
                         if (text.getText().toString() != null && !text.getText().toString().isEmpty()) {
                             String str = text.getText().toString();
-                            addComments(str);
+                            addComments(str, vm);
                             text.setText("");
                         }
                     }
@@ -80,5 +101,6 @@ public class CommentFragment extends DialogFragment {
         builder.setView(view);
         return builder.create();
     }
+
 }
 

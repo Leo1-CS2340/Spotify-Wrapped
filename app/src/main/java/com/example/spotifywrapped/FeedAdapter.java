@@ -18,14 +18,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotifywrapped.data_classes.Comment;
+import com.example.spotifywrapped.data_classes.Like;
 import com.example.spotifywrapped.data_classes.Post;
 import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.data_classes.Wrapped;
 import com.example.spotifywrapped.ui.wrapped.CommentFragment;
+import com.example.spotifywrapped.viewmodel.viewmodel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -43,11 +47,31 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     Fragment feedFragment;
     Context context;
 
-    public FeedAdapter(List<Post> feedPosts, User masterUser,Context context, Fragment feedFragment) {
+    viewmodel vm;
+
+    boolean filter_liked = false;
+
+    boolean filter_commented = false;
+
+    MutableLiveData<List<Post>> data;
+
+    CommentFragment cFragment;
+
+    public FeedAdapter(List<Post> feedPosts, User masterUser,Context context, Fragment feedFragment, viewmodel vm) {
         this.feedPosts = feedPosts;
         this.masterUser = masterUser;
         this.context = context;
         this.feedFragment = feedFragment;
+        this.vm = vm;
+        Log.d("vm size in adapter ", String.valueOf(vm.getPostLiveData().getValue().size()));
+    }
+
+    public void changeLikeFilter() {
+        filter_liked = !filter_liked;
+    }
+
+    public void changeCommentFilter() {
+        filter_commented = !filter_commented;
     }
 
     @NonNull
@@ -60,8 +84,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
-        Post post = feedPosts.get(position);
-        User user = feedPosts.get(position).getUser();
+
+        Log.d("postdata in adapter", "debug start");
+        for (Post p : data.getValue()) {
+            System.out.println(p.getPostId());
+        }
+        Post post = data.getValue().get(position);
+        User user = post.getUser();
+        Log.d("feedPOst user at position", post.getUser().getUserId() + "pos" + position);
+        Log.d("postid",post.getPostId());
         holder.username.setText(user.getUserId());
         Wrapped wrap = user.getWrap();
         holder.likeButton.setText(String.valueOf(post.getLikeCount()));
@@ -84,34 +115,44 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         holder.topSongs.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         holder.minutes.setAdapter(minutesAdapter);
         holder.minutes.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+
+        //user holder to access button count display and change value accordingly.
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (masterUser.getLikedPosts().contains(post)) {
                     post.removeLike(masterUser);
+                    vm.removeLikedPosts(post);
+                    Log.d("removepost", "ran");
                 } else {
                     post.addLike(masterUser, new Date());
+                    Log.d("liekdpost ran", " ran");
+                    vm.addLikedPosts(post);
                 }
                 notifyItemChanged(holder.getAdapterPosition());
+                int index = vm.getLikedPostsLiveData().getValue().size() - 1;
+                if (index >= 0) {
+                    Log.d("likedpost id ",   "size" + vm.getLikedPostsLiveData().getValue().size());
+                    Like l = vm.getLikedPostsLiveData().getValue().get(index).getLikes().get(0);
+                    Log.d("likeID", l.getUserId());
+                } else {
+                    Log.d("LIKESTATUS", "no lieks left");
+                }
             }
         });
 
         holder.openCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment commentFragment = new CommentFragment(post.getComments(), holder.itemView.getContext());
-                //Dialog dialog = new Dialog(holder.itemView.getContext());
-                //CommentFragment commentFragment = new CommentFragment(post.getComments(), holder.itemView.getContext());
-                //System.out.println(post.getComments().toString());
-                //View commentView = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.comment_section, null);
-                //dialog.setContentView(commentFragment);
-                //dialog.show();
+                Log.d("postid",post.getPostId());
+                cFragment = new CommentFragment(post, holder.itemView.getContext(),vm, masterUser);
+                DialogFragment commentFragment = cFragment;
+                Log.d("comment fragment","CFRAGMENT Ceated");
+                for (Comment c : post.getComments()) {
+                    Log.d("post.getComments()", c.toString());
+                }
                 commentFragment.show(feedFragment.getParentFragmentManager(), "comments");
-
             }
-
-
         });
-
     }
 
     private List<Stat> statify(List<String> list) {
@@ -125,7 +166,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     @Override
     public int getItemCount() {
-        return feedPosts.size();
+        if (filter_commented) {
+            data = vm.getCommentedPostsLiveData();
+            return vm.getCommentedPostsLiveData().getValue().size();
+        } else if (filter_liked) {
+            data = vm.getLikedPostsLiveData();
+            return vm.getLikedPostsLiveData().getValue().size();
+        }
+        data = vm.getPostLiveData();
+        return vm.getPostLiveData().getValue().size();
     }
 
 

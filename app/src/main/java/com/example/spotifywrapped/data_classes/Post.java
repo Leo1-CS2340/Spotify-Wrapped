@@ -7,7 +7,7 @@ public class Post {
 
     private User user;
 
-    private String postId;
+    private final String postId;
     private String caption;
     private Date date;
     private List<Comment> comments;
@@ -23,7 +23,8 @@ public class Post {
         this.user = user;
         this.likes = new ArrayList<>();
         this.comments = new ArrayList<>();
-        comments.add(new Comment("1", "e", new Date()));
+        this.postId = String.format("p" + user.getPosts().size() + user.getName() );
+        //comments.add(new Comment("1", "e", new Date()));
     }
 
     public void addLike(User user, Date date) {
@@ -42,6 +43,10 @@ public class Post {
         }
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     public List<Like> getLikes() {
         return likes;
     }
@@ -52,5 +57,9 @@ public class Post {
 
     public User getUser() {
         return user;
+    }
+
+    public String getPostId(){
+        return postId;
     }
 }
