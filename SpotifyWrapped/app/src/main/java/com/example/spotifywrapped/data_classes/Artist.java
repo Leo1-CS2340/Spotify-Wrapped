@@ -6,13 +6,13 @@ public class Artist {
     private final String name;
     private final String picture;
     private final List<String> genres;
-    private final int popularity;
+    private final long popularity;
 
     public Artist() {
         this("", "", null, 0);
     }
 
-    public Artist(String name, String picture, List<String> genres, int popularity) {
+    public Artist(String name, String picture, List<String> genres, long popularity) {
         this.name = name;
         this.picture = picture;
         this.genres = genres;
@@ -31,7 +31,7 @@ public class Artist {
         return genres;
     }
 
-    public int getPopularity() {
+    public long getPopularity() {
         return popularity;
     }
 }

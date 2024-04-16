@@ -133,41 +133,41 @@
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewArtist2"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Artist 2"-->
-<!--                    android:textAlignment="textEnd"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="10sp" />-->
+                <TextView
+                    android:id="@+id/textViewArtist2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Artist 2"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewArtist3"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Artist 3"-->
-<!--                    android:textAlignment="textEnd"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="10sp" />-->
+                <TextView
+                    android:id="@+id/textViewArtist3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Artist 3"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewArtist4"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Artist 4"-->
-<!--                    android:textAlignment="textEnd"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="10sp" />-->
+                <TextView
+                    android:id="@+id/textViewArtist4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Artist 4"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewArtist5"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Artist 5"-->
-<!--                    android:textAlignment="textEnd"-->
-<!--                    android:textColor="@android:color/white"-->
-<!--                    android:textSize="10sp" />-->
+                <TextView
+                    android:id="@+id/textViewArtist5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Artist 5"
+                    android:textAlignment="textEnd"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp" />
 
                 <!-- Add placeholders for remaining artists -->
 

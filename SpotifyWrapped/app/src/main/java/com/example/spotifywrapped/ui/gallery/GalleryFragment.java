@@ -24,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.units.qual.K;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,6 +35,8 @@ public class GalleryFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
     private MediaPlayer m;
+    private int currentSongIndex = 0;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,81 +46,89 @@ public class GalleryFragment extends Fragment {
         View root = binding.getRoot();
 
 
+        //Collects data for the top 5 songs
+        ArrayList<Song> totalSONGS = (LoginFragment.currentUser.getTopFiveSongs());
+        //Collects data for the top 5 artists
+        ArrayList<Artist> totalARTISTS = (LoginFragment.currentUser.getTopFiveArtists());
+        int[] textviewartists = new int[]{R.id.textViewArtist1, R.id.textViewArtist2, R.id.textViewArtist3, R.id.textViewArtist4, R.id.textViewArtist5};
 
-        m = new MediaPlayer();
+        int i = 0;
+        while (i < totalARTISTS.size()) {
+            ((TextView) root.findViewById(textviewartists[i])).setText(totalARTISTS.get(i).getName());
+            i++;
+        }
+        while (i < textviewartists.length) {
+            ((TextView) root.findViewById(textviewartists[i])).setText("");
+            i++;
+        }
 
-
-        Log.d("userInfo", LoginFragment.currentUser.getName());
-
-        ArrayList<Song> u = (LoginFragment.currentUser.getTopFiveSongs());
-        ArrayList<Artist> j = (LoginFragment.currentUser.getTopFiveArtists());
-
-        HashMap<String, Object> firstartist = (HashMap<String, Object>) j.toArray()[0];
-        ArrayList<Object> artlist = new ArrayList<Object>(firstartist.values());
-        String artistname1 = (String) artlist.get(2);
-        ((TextView) root.findViewById(R.id.textViewArtist1)).setText(artistname1);
-
-        String url = (String) artlist.get(3);
+        String url = totalARTISTS.get(0).getPicture();
         ImageView imageView = root.findViewById(R.id.imageView);
         Picasso.get().load(url)
                 .placeholder(R.drawable.imgload)
                 .into(imageView);
 
-        //DO NOT DELETE
-//        HashMap<String, Object> secondartist = (HashMap<String, Object>) j.toArray()[1];
-//        ArrayList<Object> artlist2 = new ArrayList<Object>(secondartist.values());
-//        String artistname2 = (String) artlist2.get(2);
-//        ((TextView) root.findViewById(R.id.textViewArtist2)).setText(artistname2);
-//
-//        HashMap<String, Object> thirdartist = (HashMap<String, Object>) j.toArray()[2];
-//        ArrayList<Object> artlist3 = new ArrayList<Object>(thirdartist.values());
-//        String artistname3 = (String) artlist3.get(2);
-//        ((TextView) root.findViewById(R.id.textViewArtist3)).setText(artistname3);
-//
-//        HashMap<String, Object> fourthartist = (HashMap<String, Object>) j.toArray()[3];
-//        ArrayList<Object> artlist4 = new ArrayList<Object>(fourthartist.values());
-//        String artistname4 = (String) artlist4.get(2);
-//        ((TextView) root.findViewById(R.id.textViewArtist4)).setText(artistname4);
-//
-//        HashMap<String, Object> fifthartist = (HashMap<String, Object>) j.toArray()[4];
-//        ArrayList<Object> artlist5 = new ArrayList<Object>(fifthartist.values());
-//        String artistname5 = (String) artlist5.get(2);
-//        ((TextView) root.findViewById(R.id.textViewArtist5)).setText(artistname5);
 
         //ARTIST 0: genre list, 1: popularity, 2: artist name, 3: artist pic url
         //SONG 0: preview url, 1: artist name, 2: song name, 3: popularity
-        HashMap<String, Object> firstsong = (HashMap<String, Object>) u.toArray()[0];
-        ArrayList<Object> list = new ArrayList<Object>(firstsong.values());
-        String song1 = (String) list.get(2) + " by " + (String) list.get(1);
-        ((TextView) root.findViewById(R.id.textViewSong1)).setText(song1);
+        int[] textviewsongs = new int[]{R.id.textViewSong1, R.id.textViewSong2, R.id.textViewSong3, R.id.textViewSong4, R.id.textViewSong5};
 
-        String songLink = (String) list.get(0);
+        int z = 0;
+        while (z < totalSONGS.size()) {
+            String description = (String) totalSONGS.get(z).getName() + " by " + totalSONGS.get(z).getArtist();
+            ((TextView) root.findViewById(textviewsongs[z])).setText(description);
+            z++;
+        }
+        while (z < textviewsongs.length) {
+            ((TextView) root.findViewById(textviewsongs[z])).setText("");
+            z++;
+        }
+
+        //String of urls
+        String[] songUrls = new String[]{totalSONGS.get(0).getPreview(), totalSONGS.get(1).getPreview(), totalSONGS.get(2).getPreview(), totalSONGS.get(3).getPreview(), totalSONGS.get(4).getPreview()};
+        ArrayList<String> nonNullSongs = returnNonNull(songUrls);
+
+        //Starts song
+        m = new MediaPlayer();
+        String songLink = totalSONGS.get(0).getPreview();
         startAudioStream(songLink, m);
+        currentSongIndex++;
 
-        HashMap<String, Object> s = (HashMap<String, Object>) u.toArray()[1];
-        ArrayList<Object> secondlist = new ArrayList<Object>(s.values());
-        String song2 = (String) secondlist.get(2) + " by " + (String) secondlist.get(1);
-        Log.d("Second song", song2);
-        ((TextView) root.findViewById(R.id.textViewSong2)).setText(song2);
+        //plays music repeatedly, if the amount of calls exceeds the amount of
+        musicPlaylist(m, nonNullSongs);
+        musicPlaylist(m, nonNullSongs);
+        musicPlaylist(m, nonNullSongs);
+        musicPlaylist(m, nonNullSongs);
 
-        HashMap<String, Object> thirdsong = (HashMap<String, Object>) u.toArray()[2];
-        ArrayList<Object> list3 = new ArrayList<Object>(thirdsong.values());
-        String song3 = (String) list3.get(2) + " by " + (String) list3.get(1);
-        ((TextView) root.findViewById(R.id.textViewSong3)).setText(song3);
-
-        HashMap<String, Object> fourthsong = (HashMap<String, Object>) u.toArray()[3];
-        ArrayList<Object> list4 = new ArrayList<Object>(fourthsong.values());
-        String song4 = (String) list4.get(2) + " by " + (String) list4.get(1);
-        ((TextView) root.findViewById(R.id.textViewSong4)).setText(song4);
-
-        HashMap<String, Object> fifthsong = (HashMap<String, Object>) u.toArray()[4];
-        ArrayList<Object> list5 = new ArrayList<Object>(fifthsong.values());
-        String song5 = (String) list5.get(2) + " by " + (String) list5.get(1);
-        ((TextView) root.findViewById(R.id.textViewSong5)).setText(song5);
 
         final TextView textView = binding.textViewArtist1;
-        //galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private ArrayList<String> returnNonNull(String[] n) {
+        ArrayList<String> ct = new ArrayList<>();
+        for (String i : n) {
+            if ((i != null) && (!i.equals("null"))) {
+                Log.d("null loop", i);
+                ct.add(i);
+            }
+        }
+        return ct;
+    }
+
+    private void musicPlaylist(MediaPlayer m, ArrayList<String> s) {
+
+        m.setOnCompletionListener(mp -> {
+            //currentSongIndex++;
+            //startAudioStream(totalSONGS.get(1).getPreview(), m);
+            m.reset();
+            if (currentSongIndex >= s.size()) {
+                return;
+            }
+            Log.d("Song playing", s.get(currentSongIndex));
+            startAudioStream(s.get(currentSongIndex), m);
+            currentSongIndex++;
+        });
     }
 
     public void startAudioStream(String url, MediaPlayer m) {
@@ -131,8 +142,9 @@ public class GalleryFragment extends Fragment {
             m.setDataSource(url);
             m.prepare();
             m.setVolume(1f, 1f);
-            m.setLooping(true);
+            m.setLooping(false);
             m.start();
+
         } catch (Exception e) {
             Log.d("mylog", "Error playing in SoundHandler: " + e.toString());
         }
