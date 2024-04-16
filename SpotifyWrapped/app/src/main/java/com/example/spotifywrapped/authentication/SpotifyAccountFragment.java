@@ -55,7 +55,6 @@ public class SpotifyAccountFragment extends Fragment {
     private Call mCall;
     private Call uCall;
     private Call aCall;
-    private boolean correctSpotifyAccount;
 
     public SpotifyAccountFragment() {
         // Required empty public constructor
@@ -158,7 +157,6 @@ public class SpotifyAccountFragment extends Fragment {
                                         }
                                     }
                                 });
-                                correctSpotifyAccount = true;
                                 userData.put("name", jsonObject.get("display_name"));
                                 userData.put("spotify_id", jsonObject.get("id"));
                                 userData.put("last_updated", java.time.LocalDateTime.now().toString());
@@ -187,7 +185,7 @@ public class SpotifyAccountFragment extends Fragment {
                                                 Log.w("NOOO", "Error writing document", e);
                                             }
                                         });
-                                if (correctSpotifyAccount) {
+
 
                                     mCall.enqueue(new Callback() {
                                         @Override
@@ -327,12 +325,6 @@ public class SpotifyAccountFragment extends Fragment {
                                             }
                                         }
                                     });
-                                }
-
-                            } catch (SpotifyMismatchException e) {
-                                correctSpotifyAccount = false;
-                                Toast.makeText(requireActivity(), "The Spotify account you linked is not connected to this account",
-                                        Toast.LENGTH_SHORT).show();
                             }
                             catch (JSONException e) {
                                 Log.d("JSON", "Failed to parse data: " + e);
