@@ -22,9 +22,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotifywrapped.data_classes.Artist;
 import com.example.spotifywrapped.data_classes.Comment;
 import com.example.spotifywrapped.data_classes.Like;
 import com.example.spotifywrapped.data_classes.Post;
+import com.example.spotifywrapped.data_classes.Song;
 import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.data_classes.Wrapped;
@@ -93,28 +95,65 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         User user = post.getUser();
         Log.d("feedPOst user at position", post.getUser().getUserId() + "pos" + position);
         Log.d("postid",post.getPostId());
-        holder.username.setText(user.getUserId());
+        holder.username.setText(user.getName());
         Wrapped wrap = user.getWrap();
         holder.likeButton.setText(String.valueOf(post.getLikeCount()));
 
-        List<Stat> artists = statify(wrap.getTopArtists());
-        List<Stat> genre = statify(wrap.getTopGenre());
-        List<Stat> songs = statify(wrap.getTopSongs());
-        List<Stat> minutes = statify(wrap.getMinutesListened());
+        if (user.getName().charAt(user.getName().length()-1) == 's') {
+            holder.title.setText(user.getName()+"' Spotify Wrapped 2024");
+        } else {
+            holder.title.setText(user.getName()+"'s Spotify Wrapped 2024");
+        }
 
-        UserStatAdapter artistAdapter = new UserStatAdapter(artists);
-        UserStatAdapter genreAdapter = new UserStatAdapter(genre);
-        UserStatAdapter songAdapter = new UserStatAdapter(songs);
-        UserStatAdapter minutesAdapter = new UserStatAdapter(minutes);
 
-        holder.topArtists.setAdapter(artistAdapter);
-        holder.topArtists.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        holder.topGenre.setAdapter(genreAdapter);
-        holder.topGenre.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        holder.topSongs.setAdapter(songAdapter);
-        holder.topSongs.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        holder.minutes.setAdapter(minutesAdapter);
-        holder.minutes.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        ArrayList<Artist> totalARTISTS = wrap.getTopArtists();
+        ArrayList<Song> totalSONGS = wrap.getTopSongs();
+        int minutes = wrap.getMinutesListened();
+        String topGenre = wrap.getTopGenre();
+
+
+        //List<Stat> genre = statify(wrap.getTopGenre());
+
+        //List<Stat> minutes = statify(wrap.getMinutesListened());
+
+
+        //UserStatAdapter artistAdapter = new UserStatAdapter(artists);
+        //UserStatAdapter genreAdapter = new UserStatAdapter(genre);
+        //UserStatAdapter songAdapter = new UserStatAdapter(songs);
+        //UserStatAdapter minutesAdapter = new UserStatAdapter(minutes);
+
+        int i = 0;
+        while (i < totalARTISTS.size()) {
+            ((TextView) holder.itemView.findViewById(holder.textviewartists[i])).setText(totalARTISTS.get(i).getName());
+            i++;
+        }
+        while (i < holder.textviewartists.length) {
+            ((TextView) holder.itemView.findViewById(holder.textviewartists[i])).setText("");
+            i++;
+        }
+
+        int z = 0;
+        while (z < totalSONGS.size()) {
+            String description = (String) totalSONGS.get(z).getName() + " by " + totalSONGS.get(z).getArtist();
+            ((TextView) holder.itemView.findViewById(holder.textviewsongs[z])).setText(description);
+            z++;
+        }
+        while (z < holder.textviewsongs.length) {
+            ((TextView) holder.itemView.findViewById(holder.textviewsongs[z])).setText("");
+            z++;
+        }
+
+        //holder.topArtists.setAdapter(artistAdapter);
+        //holder.topArtists.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        //holder.topGenre.setAdapter(genreAdapter);
+        //holder.topGenre.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        //holder.topSongs.setAdapter(songAdapter);
+        //holder.topSongs.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        //holder.minutes.setAdapter(minutesAdapter);
+        //holder.minutes.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+
+        holder.topGenre.setText(wrap.getTopGenre());
+        holder.minutes.setText(wrap.getMinutesListened()+"");
 
         //user holder to access button count display and change value accordingly.
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
@@ -182,20 +221,26 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         ImageView pfp;
         TextView username;
         RecyclerView topArtists;
-        RecyclerView topGenre;
+        TextView topGenre;
         RecyclerView topSongs;
-        RecyclerView minutes;
+        TextView minutes;
 
         Button likeButton;
         Button openCommentsButton;
+        int[] textviewsongs;
+        int[] textviewartists;
+
+        TextView title;
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.textViewTitle);
             pfp = itemView.findViewById(R.id.profile_picture);
             username = itemView.findViewById(R.id.username);
             topArtists = itemView.findViewById(R.id.rvTopArtists);
-            topGenre = itemView.findViewById(R.id.rvTopGenre);
-            topSongs = itemView.findViewById(R.id.rvTopSongs);
-            minutes = itemView.findViewById(R.id.rvMinutesListened);
+            topGenre = itemView.findViewById(R.id.textViewTopGenre1);
+            textviewsongs = new int[]{R.id.textViewSong1, R.id.textViewSong2, R.id.textViewSong3, R.id.textViewSong4, R.id.textViewSong5};
+            textviewartists = new int[]{R.id.textViewArtist1, R.id.textViewArtist2, R.id.textViewArtist3, R.id.textViewArtist4, R.id.textViewArtist5};
+            minutes = itemView.findViewById(R.id.textViewMinutesListened1);
             likeButton = itemView.findViewById(R.id.like_button);
             openCommentsButton = itemView.findViewById(R.id.comment_button);
         }

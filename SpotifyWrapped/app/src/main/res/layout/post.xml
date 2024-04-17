@@ -43,7 +43,7 @@
 
         <include
             android:id="@+id/post_content"
-            layout="@layout/fragment_user_stats"
+            layout="@layout/fragment_gallery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"/>

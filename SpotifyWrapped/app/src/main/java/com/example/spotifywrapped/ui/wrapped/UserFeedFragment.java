@@ -17,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifywrapped.FeedAdapter;
 import com.example.spotifywrapped.R;
+import com.example.spotifywrapped.data_classes.Artist;
 import com.example.spotifywrapped.data_classes.MasterUser;
 import com.example.spotifywrapped.data_classes.Post;
+import com.example.spotifywrapped.data_classes.Song;
 import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.data_classes.Wrapped;
@@ -40,10 +42,10 @@ public class UserFeedFragment extends Fragment {
     List<Post> feedPosts = new ArrayList<>();
     RecyclerView feed;
     FeedAdapter adapter;
-    ArrayList<String> topArtists;
-    ArrayList<String>topSongs;
-    ArrayList<String> topGenre;
-    ArrayList<String> minutes;
+    ArrayList<Artist> topArtists;
+    ArrayList<Song>topSongs;
+    String topGenre;
+    int minutes;
     Wrapped wrap;
     User user1;
     User user2;
@@ -53,19 +55,18 @@ public class UserFeedFragment extends Fragment {
     private void setDummyData() {
         topArtists = new ArrayList<>();
         topSongs = new ArrayList<>();
-        topGenre = new ArrayList<>();
+        topGenre = "rap";
         following = new ArrayList<>();
-        minutes = new ArrayList<>();
-        topArtists.add("artist");
-        topArtists.add("artist2");
-        topSongs.add("song");
-        topSongs.add("song2");
-        topGenre.add("rock");
-        topGenre.add("rap");
-        minutes.add("365");
+        minutes = 365;
+        topArtists.add(new Artist("Taylor Swift"));
+        topArtists.add(new Artist("Kendrick Lamar"));
+        topSongs.add(new Song("Blank Space"));
+        topSongs.add(new Song("Humble"));
+
+
         wrap = new Wrapped(topArtists, topSongs, minutes, topGenre);
         User user1 = new User("1", "adam", wrap);
-        User user2 = new User("2", "bob", wrap);
+        User user2 = new User("2", "alexis", wrap);
         User user3 = new User("3", "caitlyn", wrap);
 
         masterUser = new MasterUser("masteruser", "alex", wrap);

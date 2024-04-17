@@ -10,6 +10,10 @@ public class Song {
     public Song() {
         this("", "", "", "", 0);
     }
+
+    public Song(String name) {
+        this(name, "","","",0);
+    }
     public Song(String name, String artist, String album, String preview, int popularity) {
         this.name = name;
         this.artist = artist;
