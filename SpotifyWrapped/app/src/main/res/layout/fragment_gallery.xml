@@ -20,20 +20,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:padding="16dp"
-        android:background="@android:color/black">
+        tools:layout_editor_absoluteX="-107dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <!-- Title -->
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Spotify Wrapped 2024"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#1DB954"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="50dp"
+            android:text="Your Spotify Wrapped 2024"
+            android:textColor="#1DB954"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <!-- Top 5 Songs and Top 5 Artists -->
 
@@ -42,8 +44,8 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewTitle"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/imageView"
+            android:layout_marginTop="32dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -60,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="Top 5 Songs:"
                     android:textColor="#1DB954"
-                    android:textSize="18sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -121,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:text="Top Artist:"
                     android:textColor="#1DB954"
-                    android:textSize="18sp"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -175,40 +177,15 @@
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="200dp"
-            android:layout_height="1dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:background="#1DB954" />
 
-        <View
-            android:id="@+id/line2"
-            android:layout_width="200dp"
-            android:layout_height="1dp"
-            android:layout_below="@id/line1"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="#1DB954"/>
-
-        <View
-            android:id="@+id/line3"
-            android:layout_width="200dp"
-            android:layout_height="1dp"
-            android:layout_below="@id/line2"
-            android:layout_marginTop="16dp"
-            android:layout_centerHorizontal="true"
-            android:background="#1DB954"/>
 
         <!-- Image Placeholder -->
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_below="@+id/linearLayout"
-            android:layout_marginTop="152dp"
+            android:layout_below="@+id/textViewTitle"
+            android:layout_marginTop="32dp"
             android:scaleType="centerCrop" />
 
     </RelativeLayout>
