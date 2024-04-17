@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.GalleryFragment">
+    tools:context=".ui.singleWrapped.SingleWrappedFragment">
 
     <fragment
         android:id="@+id/nav_host_fragment_content_main"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:text="Your Spotify Wrapped 2024"
+            android:text="@string/your_spotify_wrapped_2024"
             android:textColor="#1DB954"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="Top 5 Songs:"
                     android:textColor="#1DB954"
+                    android:layout_marginBottom="10dp"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -122,6 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Top Artist:"
+                    android:layout_marginBottom="10dp"
                     android:textColor="#1DB954"
                     android:textSize="24sp"
                     android:textStyle="bold" />

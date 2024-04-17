@@ -1,4 +1,4 @@
-package com.example.spotifywrapped.ui.gallery;
+package com.example.spotifywrapped.ui.singleWrapped;
 
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -19,7 +19,7 @@ import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.authentication.LoginFragment;
 import com.example.spotifywrapped.data_classes.Artist;
 import com.example.spotifywrapped.data_classes.Song;
-import com.example.spotifywrapped.databinding.FragmentGalleryBinding;
+import com.example.spotifywrapped.databinding.FragmentSingleWrappedBinding;
 import com.squareup.picasso.Picasso;
 
 import org.checkerframework.checker.units.qual.K;
@@ -31,18 +31,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class GalleryFragment extends Fragment {
+public class SingleWrappedFragment extends Fragment {
 
-    private FragmentGalleryBinding binding;
+    private FragmentSingleWrappedBinding binding;
     private MediaPlayer m;
     private int currentSongIndex = 0;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //GalleryViewModel galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
+        // fSingleWrappedViewModel singleWrappedViewModel = new ViewModelProvider(this).get(SingleWrappedViewModel.class);
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+        binding = FragmentSingleWrappedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 
@@ -54,7 +54,11 @@ public class GalleryFragment extends Fragment {
 
         int i = 0;
         while (i < totalARTISTS.size()) {
-            ((TextView) root.findViewById(textviewartists[i])).setText(totalARTISTS.get(i).getName());
+            // 1. "artist name"
+            // 2. "artist name"
+            // etc..
+            String description = (i + 1) + ". " + totalARTISTS.get(i).getName();
+            ((TextView) root.findViewById(textviewartists[i])).setText(description);
             i++;
         }
         while (i < textviewartists.length) {
@@ -74,8 +78,11 @@ public class GalleryFragment extends Fragment {
         int[] textviewsongs = new int[]{R.id.textViewSong1, R.id.textViewSong2, R.id.textViewSong3, R.id.textViewSong4, R.id.textViewSong5};
 
         int z = 0;
+        // 1. "Top 1 song title"
+        // 2. "Top 2 song title"
+        // etc..
         while (z < totalSONGS.size()) {
-            String description = (String) totalSONGS.get(z).getName() + " by " + totalSONGS.get(z).getArtist();
+            String description = (z + 1) + ". " +  (String) totalSONGS.get(z).getName() + " by " + totalSONGS.get(z).getArtist();
             ((TextView) root.findViewById(textviewsongs[z])).setText(description);
             z++;
         }
