@@ -45,6 +45,13 @@ public class SingleWrappedFragment extends Fragment {
         binding = FragmentSingleWrappedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+    // Assume LoginFragment.currentUser is already initialized and contains user data
+        if (LoginFragment.currentUser != null) {
+            String userName = LoginFragment.currentUser.getName() + "'s\nSpotify Wrapped 2024";
+            TextView usernameTextView = root.findViewById(R.id.textViewTitle);
+            usernameTextView.setText(userName);  // Set the user's name to the TextView
+        }
+
 
         //Collects data for the top 5 songs
         ArrayList<Song> totalSONGS = (LoginFragment.currentUser.getTopFiveSongs());
