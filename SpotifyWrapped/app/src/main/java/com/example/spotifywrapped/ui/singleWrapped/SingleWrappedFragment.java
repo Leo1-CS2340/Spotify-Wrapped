@@ -108,7 +108,7 @@ public class SingleWrappedFragment extends Fragment {
         try {
             mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
             mediaPlayer.setDataSource(url);
-            mediaPlayer.prepare();  // consider changing to prepareAsync() to avoid blocking the main thread
+            mediaPlayer.prepare();
             mediaPlayer.setVolume(1f, 1f);
             mediaPlayer.setLooping(false);
             mediaPlayer.start();
