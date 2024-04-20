@@ -47,7 +47,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class SpotifyAccountFragment extends Fragment {
-    private static final String CLIENT_ID = "1b5ff154cb554dbc9e189a18aff5d701";
+    private static final String CLIENT_ID = "d7d5deb771d04355a317b9f405a35847";
     private static final String REDIRECT_URI = "com.example.spotifywrapped://auth";
     private static final int REQUEST_CODE = 69;
     private String access_token, access_code;
