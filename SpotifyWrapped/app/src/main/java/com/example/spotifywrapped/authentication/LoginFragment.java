@@ -31,7 +31,7 @@ public class LoginFragment extends Fragment {
 
     private TextInputLayout email;
     private TextInputLayout password;
-    public User currentUser;
+    public static User currentUser;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -86,8 +86,8 @@ public class LoginFragment extends Fragment {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d("Hello", "DocumentSnapshot data: " + document.getData());
-                                            User currentuser = new User(document);
-                                            Log.d("HELLO", currentuser.toString());
+                                            currentUser = new User(document);
+                                            Log.d("HELLO", currentUser.toString());
                                             Intent i = new Intent(getContext(), MainActivity.class);
                                             startActivity(i);
                                         } else {
