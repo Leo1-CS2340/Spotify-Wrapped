@@ -24,6 +24,7 @@ import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
 import com.example.spotifywrapped.ui.wrapped.CommentFragment;
 import com.example.spotifywrapped.viewmodel.viewmodel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -130,6 +131,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             z++;
         }
 
+        if (!totalARTISTS.isEmpty()) {
+            ImageView imageView = holder.imageView;
+            Picasso.get().load(totalARTISTS.get(0).getPicture())
+                    .placeholder(R.drawable.imgload)
+                    .into(imageView);
+        }
+
         //holder.topArtists.setAdapter(artistAdapter);
         //holder.topArtists.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         //holder.topGenre.setAdapter(genreAdapter);
@@ -210,6 +218,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         RecyclerView topSongs;
         TextView minutes;
 
+        ImageView imageView;
+
         Button likeButton;
         Button openCommentsButton;
         int[] textviewsongs;
@@ -226,6 +236,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             textviewartists = new int[]{R.id.textViewArtist1, R.id.textViewArtist2, R.id.textViewArtist3, R.id.textViewArtist4, R.id.textViewArtist5};
             likeButton = itemView.findViewById(R.id.like_button);
             openCommentsButton = itemView.findViewById(R.id.comment_button);
+            imageView = itemView.findViewById(R.id.imageView);
         }
     }
 }
