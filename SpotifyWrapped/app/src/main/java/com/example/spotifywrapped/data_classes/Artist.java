@@ -6,7 +6,7 @@ public class Artist {
     private final String name;
     private final String picture;
     private final List<String> genres;
-    private final int popularity;
+    private final long popularity;
 
     public Artist() {
         this("", "", null, 0);
@@ -35,7 +35,7 @@ public class Artist {
         return genres;
     }
 
-    public int getPopularity() {
+    public long getPopularity() {
         return popularity;
     }
 }

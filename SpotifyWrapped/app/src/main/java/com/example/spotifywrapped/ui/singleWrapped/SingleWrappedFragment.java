@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.spotifywrapped.AuthenticationActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.authentication.LoginFragment;
 import com.example.spotifywrapped.data_classes.Artist;
@@ -46,15 +47,15 @@ public class SingleWrappedFragment extends Fragment {
     }
 
     private void setupUserDataDisplay(View root) {
-        if (LoginFragment.currentUser != null) {
-            String userName = LoginFragment.currentUser.getName() + "'s\nSpotify Wrapped 2024";
+        if (AuthenticationActivity.currentUser != null) {
+            String userName = AuthenticationActivity.currentUser.getName() + "'s\nSpotify Wrapped 2024";
             TextView usernameTextView = root.findViewById(R.id.textViewTitle);
             usernameTextView.setText(userName);
         }
     }
 
     private void setupArtistsDisplay(View root) {
-        ArrayList<Artist> artists = LoginFragment.currentUser.getTopFiveArtists();
+        ArrayList<Artist> artists = AuthenticationActivity.currentUser.getTopFiveArtists();
         for (int i = 0; i < artists.size(); i++) {
             String description = (i + 1) + ". " + artists.get(i).getName();
             int textViewId = root.getResources().getIdentifier("textViewArtist" + (i + 1), "id", getContext().getPackageName());
@@ -70,7 +71,7 @@ public class SingleWrappedFragment extends Fragment {
     }
 
     private void setupSongsDisplay(View root) {
-        ArrayList<Song> songs = LoginFragment.currentUser.getTopFiveSongs();
+        ArrayList<Song> songs = AuthenticationActivity.currentUser.getTopFiveSongs();
         nonNullSongUrls = new ArrayList<>();
 
         for (int i = 0; i < songs.size(); i++) {
@@ -179,18 +180,18 @@ public class SingleWrappedFragment extends Fragment {
 //        binding = FragmentSingleWrappedBinding.inflate(inflater, container, false);
 //        View root = binding.getRoot();
 //
-//        // Assume LoginFragment.currentUser is already initialized and contains user data
-//        if (LoginFragment.currentUser != null) {
-//            String userName = LoginFragment.currentUser.getName() + "'s\nSpotify Wrapped 2024";
+//        // Assume AuthenticationActivity.currentUser is already initialized and contains user data
+//        if (AuthenticationActivity.currentUser != null) {
+//            String userName = AuthenticationActivity.currentUser.getName() + "'s\nSpotify Wrapped 2024";
 //            TextView usernameTextView = root.findViewById(R.id.textViewTitle);
 //            usernameTextView.setText(userName);  // Set the user's name to the TextView
 //        }
 //
 //
 //        //Collects data for the top 5 songs
-//        ArrayList<Song> totalSONGS = (LoginFragment.currentUser.getTopFiveSongs());
+//        ArrayList<Song> totalSONGS = (AuthenticationActivity.currentUser.getTopFiveSongs());
 //        //Collects data for the top 5 artists
-//        ArrayList<Artist> totalARTISTS = (LoginFragment.currentUser.getTopFiveArtists());
+//        ArrayList<Artist> totalARTISTS = (AuthenticationActivity.currentUser.getTopFiveArtists());
 //        int[] textviewartists = new int[]{R.id.textViewArtist1, R.id.textViewArtist2, R.id.textViewArtist3, R.id.textViewArtist4, R.id.textViewArtist5};
 //
 //        int i = 0;

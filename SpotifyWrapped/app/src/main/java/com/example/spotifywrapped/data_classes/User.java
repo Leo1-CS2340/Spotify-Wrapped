@@ -1,7 +1,13 @@
 package com.example.spotifywrapped.data_classes;
-import java.util.ArrayList;
-import java.util.List;
+
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import org.w3c.dom.Document;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class User {
     private String profile_picture;
@@ -28,13 +34,46 @@ public class User {
 
     }
 
-    public User(DocumentSnapshot userDocument) {
-        this.name = (String) userDocument.get("name");
-        this.profile_picture = (String) userDocument.get("profile_picture");
-        this.spotify_id = (String) userDocument.get("spotify_id");
-        this.topFiveSongs = (ArrayList<Song>) userDocument.get("topFiveSongs");
-        this.topFiveArtists = (ArrayList<Artist>) userDocument.get("topFiveArtists");
 
+    public User(DocumentSnapshot userDocument) {
+        this.name = userDocument.getString("name");
+        this.profile_picture = userDocument.getString("profile_picture");
+        this.spotify_id = userDocument.getString("spotify_id");
+        this.topFiveSongs = convertToSongList(userDocument.get("topFiveSongs"));
+        this.topFiveArtists = convertToArtistList(userDocument.get("topFiveArtists"));
+    }
+    private ArrayList<Song> convertToSongList(Object rawData) {
+        ArrayList<Song> songs = new ArrayList<>();
+        if (rawData instanceof List) {
+            List<Map<String, Object>> songData = (List<Map<String, Object>>) rawData;
+            for (Map<String, Object> data : songData) {
+                songs.add(new Song(
+                        (String) data.get("name"),
+                        (String) data.get("artist"),
+                        (String) data.get("album"),
+                        (String) data.get("preview"),
+                        ((Number) data.get("popularity")).longValue()
+                ));
+            }
+        }
+        return songs;
+    }
+
+    private ArrayList<Artist> convertToArtistList(Object rawData) {
+        ArrayList<Artist> artists = new ArrayList<>();
+        if (rawData instanceof List) {
+            List<Map<String, Object>> artistData = (List<Map<String, Object>>) rawData;
+            for (Map<String, Object> data : artistData) {
+                List<String> genres = (List<String>) data.get("genres");
+                artists.add(new Artist(
+                        (String) data.get("name"),
+                        (String) data.get("picture"),
+                        genres,
+                        ((Number) data.get("popularity")).intValue()
+                ));
+            }
+        }
+        return artists;
     }
 
     public String getName() {

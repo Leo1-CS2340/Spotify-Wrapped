@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.spotifywrapped.AuthenticationActivity;
 import com.example.spotifywrapped.MainActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.custom_exceptions.SpotifyMismatchException;
@@ -204,7 +205,10 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
-                                                int total = (int) jsonObject.get("total");
+                                                int total = (int) jsonObject.get("limit");
+                                                if ((int) jsonObject.get("total") < total) {
+                                                    total = (int) jsonObject.get("total");
+                                                }
                                                 Song[] topFive = new Song[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject track = items.getJSONObject(i);
@@ -261,7 +265,10 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
-                                                int total = (int) jsonObject.get("total");
+                                                int total = (int) jsonObject.get("limit");
+                                                if ((int) jsonObject.get("total") < total) {
+                                                    total = (int) jsonObject.get("total");
+                                                }
                                                 Artist[] topFive = new Artist[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject artist = items.getJSONObject(i);
@@ -298,8 +305,8 @@ public class SpotifyAccountFragment extends Fragment {
                                                                             DocumentSnapshot document = task.getResult();
                                                                             if (document.exists()) {
                                                                                 Log.d("Hello", "DocumentSnapshot data: " + document.getData());
-                                                                                User currentuser = new User(document);
-                                                                                Log.d("HELLO", currentuser.toString());
+                                                                                AuthenticationActivity.currentUser = new User(document);
+                                                                                Log.d("HELLO", AuthenticationActivity.currentUser.toString());
                                                                                 Intent i = new Intent(getContext(), MainActivity.class);
                                                                                 startActivity(i);
                                                                             } else {
