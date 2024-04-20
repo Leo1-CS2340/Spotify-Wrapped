@@ -1,5 +1,7 @@
 package com.example.spotifywrapped.data_classes;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.w3c.dom.Document;
@@ -16,11 +18,11 @@ public class User {
 
     private String spotify_id;
     private String name;
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
     private List<User> followers;
-    private List<User> following;
+    public List<User> following = new ArrayList<>();
 
-    public List<Post> likedPosts;
+    public List<Post> likedPosts = new ArrayList<>();
 
     private boolean visibility;
 

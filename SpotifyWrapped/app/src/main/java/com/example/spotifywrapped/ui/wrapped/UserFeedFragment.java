@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotifywrapped.AuthenticationActivity;
 import com.example.spotifywrapped.FeedAdapter;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.data_classes.Artist;
@@ -29,6 +30,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -36,7 +39,7 @@ import android.widget.Switch;
 public class UserFeedFragment extends Fragment {
 
     private final viewmodel vm = viewmodel.getInstance();
-    List<User> following;
+    static List<User> following = new ArrayList<>();
     List<Post> feedPosts = new ArrayList<>();
     RecyclerView feed;
     FeedAdapter adapter;
@@ -60,9 +63,17 @@ public class UserFeedFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 User postUser = new User(document);
+                                Log.d("Data", following.toString());
                                 postUser.addPost();
-                                following.add(postUser);
+
+                                UserFeedFragment.following.add(postUser);
+                                Log.d("Added", UserFeedFragment.following.toString());
                             }
+                            for (User u : following) {
+                                vm.addAll(u.getPosts());
+                                Log.d("vm update","posts added to view model");
+                            }
+                            feed.setAdapter(adapter);
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
@@ -91,14 +102,11 @@ public class UserFeedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         if (vm.getPostLiveData().getValue().size() == 0) {
             setPostData();
             Log.d("dummydata","dummydata initialized");
-            for (User u : following) {
-                vm.addAll(u.getPosts());
-                Log.d("vm update","posts added to view model");
-            }
+            Log.d("dummydata", following.toString());
+
         }
         //vm.printValues(); use to print values in the view model
         View view = inflater.inflate(R.layout.feed_fragment, container, false);
@@ -110,8 +118,7 @@ public class UserFeedFragment extends Fragment {
 //            System.out.println(p.getPostId());
 //        }
         Context context = getContext();
-        adapter = new FeedAdapter(feedPosts, masterUser, context, this, vm);
-        feed.setAdapter(adapter);
+        adapter = new FeedAdapter(feedPosts, AuthenticationActivity.currentUser, context, this, vm);
         Log.d("userFeedfragment", "created");
 
         Switch likedPosts = view.findViewById(R.id.likeSwitch);

@@ -56,6 +56,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         this.context = context;
         this.feedFragment = feedFragment;
         this.vm = vm;
+        this.data = vm.getPostLiveData();
         Log.d("vm size in adapter ", String.valueOf(vm.getPostLiveData().getValue().size()));
     }
 

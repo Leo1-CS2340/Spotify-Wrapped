@@ -1,5 +1,7 @@
 package com.example.spotifywrapped.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -43,6 +45,7 @@ public class viewmodel extends ViewModel {
 
     // Method to add a custom object to the list
     public void addPost(Post customObject) {
+        Log.d("Test", customObject.getUser().getName());
         List<Post> currentList = PostData.getValue();
         currentList.add(customObject);
         PostData.setValue(currentList);
