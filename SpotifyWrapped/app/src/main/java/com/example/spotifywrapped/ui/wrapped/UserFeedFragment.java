@@ -64,16 +64,21 @@ public class UserFeedFragment extends Fragment {
         topSongs.add(new Song("Humble"));
 
 
-        wrap = new Wrapped(topArtists, topSongs, minutes, topGenre);
-        User user1 = new User("1", "adam", wrap);
-        User user2 = new User("2", "alexis", wrap);
-        User user3 = new User("3", "caitlyn", wrap);
 
-        masterUser = new MasterUser("masteruser", "alex", wrap);
+        User user1 = new User("1", "adam");
+        User user2 = new User("2", "alexis");
+        User user3 = new User("3", "caitlyn");
+
+
+
+        masterUser = new MasterUser("masteruser", "alex");
 
         user1.addPost();
         user2.addPost();
         user3.addPost();
+
+        user1.setTopFiveArtists(topArtists);
+        user1.setTopFiveSongs(topSongs);
 
         following.add(user1);
         following.add(user2);

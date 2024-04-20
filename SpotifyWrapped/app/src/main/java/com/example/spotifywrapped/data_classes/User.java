@@ -6,22 +6,23 @@ import java.util.List;
 public class User {
     private String userId;
     private String name;
-
-    private Wrapped wrap;
-    private String email;
-    private String password;
     private List<Post> posts;
     private List<User> followers;
     private List<User> following;
 
     public List<Post> likedPosts;
 
-    public User(String userId, String name, Wrapped wrap) {
+    private ArrayList<Song> topFiveSongs;
+    private ArrayList<Artist> topFiveArtists;
+
+    public User(String userId, String name) {
         this.userId = userId;
         this.name = name;
-        this.wrap = wrap;
         this.posts = new ArrayList<>();
         this.likedPosts = new ArrayList<>();
+        this.topFiveSongs = new ArrayList<>();
+        this.topFiveArtists = new ArrayList<>();
+
     }
 
 
@@ -32,14 +33,6 @@ public class User {
 
     public String getName() {
         return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public List<Post> getPosts() {
@@ -65,23 +58,19 @@ public class User {
         likedPosts.remove(post);
     }
 
-    public List<User> getFollowers() {
-        return followers;
+    public ArrayList<Artist> getTopFiveArtists() {
+        return topFiveArtists;
     }
 
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
+    public ArrayList<Song> getTopFiveSongs() {
+        return topFiveSongs;
     }
 
-    public List<User> getFollowing() {
-        return following;
+    public void setTopFiveSongs(ArrayList<Song> s) {
+        this.topFiveSongs = s;
+    }
+    public void setTopFiveArtists(ArrayList<Artist> a) {
+        this.topFiveArtists = a;
     }
 
-    public void setFollowing(List<User> following) {
-        this.following = following;
-    }
-
-    public Wrapped getWrap() {
-        return wrap;
-    }
 }

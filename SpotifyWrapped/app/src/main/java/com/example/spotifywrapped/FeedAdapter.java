@@ -96,7 +96,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         Log.d("feedPOst user at position", post.getUser().getUserId() + "pos" + position);
         Log.d("postid",post.getPostId());
         holder.username.setText(user.getName());
-        Wrapped wrap = user.getWrap();
         holder.likeButton.setText(String.valueOf(post.getLikeCount()));
 
         if (user.getName().charAt(user.getName().length()-1) == 's') {
@@ -106,10 +105,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         }
 
 
-        ArrayList<Artist> totalARTISTS = wrap.getTopArtists();
-        ArrayList<Song> totalSONGS = wrap.getTopSongs();
-        int minutes = wrap.getMinutesListened();
-        String topGenre = wrap.getTopGenre();
+        ArrayList<Artist> totalARTISTS = user.getTopFiveArtists();
+        ArrayList<Song> totalSONGS = user.getTopFiveSongs();
 
 
         //List<Stat> genre = statify(wrap.getTopGenre());
@@ -152,8 +149,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         //holder.minutes.setAdapter(minutesAdapter);
         //holder.minutes.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
 
-        holder.topGenre.setText(wrap.getTopGenre());
-        holder.minutes.setText(wrap.getMinutesListened()+"");
 
         //user holder to access button count display and change value accordingly.
         holder.likeButton.setOnClickListener(new View.OnClickListener() {
@@ -237,10 +232,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             pfp = itemView.findViewById(R.id.profile_picture);
             username = itemView.findViewById(R.id.username);
             topArtists = itemView.findViewById(R.id.rvTopArtists);
-            topGenre = itemView.findViewById(R.id.textViewTopGenre1);
             textviewsongs = new int[]{R.id.textViewSong1, R.id.textViewSong2, R.id.textViewSong3, R.id.textViewSong4, R.id.textViewSong5};
             textviewartists = new int[]{R.id.textViewArtist1, R.id.textViewArtist2, R.id.textViewArtist3, R.id.textViewArtist4, R.id.textViewArtist5};
-            minutes = itemView.findViewById(R.id.textViewMinutesListened1);
             likeButton = itemView.findViewById(R.id.like_button);
             openCommentsButton = itemView.findViewById(R.id.comment_button);
         }
