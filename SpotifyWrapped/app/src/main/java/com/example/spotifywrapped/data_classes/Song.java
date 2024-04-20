@@ -17,6 +17,9 @@ public class Song {
         this.preview = preview;
         this.popularity = popularity;
     }
+    public Song(String name) {
+        this(name, "","","",0);
+    }
 
     public String getName() {
         return name;
