@@ -1,6 +1,5 @@
 package com.example.spotifywrapped.ui.wrapped;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,19 +8,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.spotifywrapped.FeedAdapter;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.data_classes.Comment;
 import com.example.spotifywrapped.data_classes.Post;
@@ -30,11 +25,8 @@ import com.example.spotifywrapped.ui.CommentAdapter;
 import com.example.spotifywrapped.viewmodel.viewmodel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class CommentFragment extends DialogFragment {
 
@@ -62,7 +54,7 @@ public class CommentFragment extends DialogFragment {
 
     private void addComments(String str, viewmodel vm) {
         Log.d("comment", "new Comment added");
-        Comment newComment = new Comment(user.getUserId(), str, sdf.format(new Date()));
+        Comment newComment = new Comment(user.getSpotify_id(), str, sdf.format(new Date()));
         post.getComments().add(newComment);
         vm.updatePost(post);
         vm.addCommentedPosts(post);

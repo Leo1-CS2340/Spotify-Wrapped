@@ -89,7 +89,7 @@ public class viewmodel extends ViewModel {
     public void updateCommentedPosts(User u) {
         for (Post p : PostData.getValue()) {
             for (Comment c : p.getComments()) {
-                if (c.getUserId() == u.getUserId()) {
+                if (c.getUserId() == u.getSpotify_id()) {
                     commentedPosts.getValue().add(p);
                     break;
                 }
@@ -112,7 +112,7 @@ public class viewmodel extends ViewModel {
     public void updateLikedPosts(User u) {
         for (Post p : PostData.getValue()) {
             for (Like l : p.getLikes()) {
-                if (l.getUserId() == u.getUserId()) {
+                if (l.getUserId() == u.getSpotify_id()) {
                     likedPosts.getValue().add(p);
                     break;
                 }

@@ -11,22 +11,15 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
-    <!--
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.spotifywrapped.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-        -->
-    <fragment
-        android:id="@+id/nav_user_stats"
-        android:name="com.example.spotifywrapped.ui.wrapped.UserStatsFragment"
-        android:label="@string/user_stats"
-        tools:layout="@layout/fragment_user_stats" />
 
     <fragment
-        android:id="@+id/feed"
-        android:name="com.example.spotifywrapped.ui.wrapped.UserFeedFragment"
-        android:label="@string/Feed"
-        tools:layout="@layout/feed_fragment" />
+        android:id="@+id/nav_account"
+        android:name="com.example.spotifywrapped.ui.account.AccountFragment"
+        android:label="@string/menu_account"
+        tools:layout="@layout/fragment_account" />
 </navigation>

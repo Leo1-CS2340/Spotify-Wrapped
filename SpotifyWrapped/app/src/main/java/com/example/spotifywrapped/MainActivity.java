@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.spotifywrapped.ui.wrapped.UserStatsFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -29,17 +28,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //RecyclerView recyclerview = findViewById(R.id.feedRV);
-
-        //if (savedInstanceState == null) {
-            // Load your fragment here
-        //    UserStatsFragment fragment = new UserStatsFragment();
-        //    getSupportFragmentManager().beginTransaction()
-        //            .replace(R.id.drawer_layout, fragment)
-        //            .commit();
-        //}
-
-
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_user_stats, R.id.feed)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_account)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

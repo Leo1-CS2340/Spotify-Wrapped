@@ -29,13 +29,13 @@ public class Post {
 
     public void addLike(User user, Date date) {
         likeCount++;
-        likes.add(new Like(likeCount, user.getUserId(), date));
+        likes.add(new Like(likeCount, user.getSpotify_id(), date));
         user.addLikedPost(this);
     }
 
     public void removeLike(User user) {
         for (Like l : likes) {
-            if (l.getUserId().equals(user.getUserId())) {
+            if (l.getUserId().equals(user.getSpotify_id())) {
                 likes.remove(l);
                 likeCount--;
                 user.removeLikedPost(this);

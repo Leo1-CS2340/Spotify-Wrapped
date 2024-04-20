@@ -9,13 +9,19 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="comment_button">Comment Button</string>
-    <string name="like_button">Like Button</string>
-    <string name="user_stats">User Stats</string>
-    <string name="Feed">Feed</string>
-    <string name="submit">submit</string>
-    <string name="comments">Comments</string>
+    <string name="menu_account">Account</string>
+    <string name="register_title">Sign up to view your Wrapped!</string>
+    <string name="email">Email address</string>
+    <string name="password">Password</string>
+    <string name="register_confirm">Confirm Password</string>
+    <string name="register_signup">Sign up</string>
+    <string name="welcome_message">Welcome! \nLog in or sign up to get started!</string>
+    <string name="login_title">Log in to view your Wrapped!</string>
+    <string name="login_button">Log In</string>
+    <string name="connect_title">Connect your Spotify Account!</string>
+    <string name="connect_button">Connect</string>
+    <string name="change_password">Change password</string>
+    <string name="delete_account">Delete account</string>
+    <string name="log_out">Log out</string>
+    <string name="account_settings">Account Settings</string>
 </resources>

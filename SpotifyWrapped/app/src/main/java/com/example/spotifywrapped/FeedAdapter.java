@@ -1,10 +1,6 @@
 package com.example.spotifywrapped;
 
-import static java.security.AccessController.getContext;
-
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifywrapped.data_classes.Artist;
@@ -29,11 +22,8 @@ import com.example.spotifywrapped.data_classes.Post;
 import com.example.spotifywrapped.data_classes.Song;
 import com.example.spotifywrapped.data_classes.Stat;
 import com.example.spotifywrapped.data_classes.User;
-import com.example.spotifywrapped.data_classes.Wrapped;
 import com.example.spotifywrapped.ui.wrapped.CommentFragment;
 import com.example.spotifywrapped.viewmodel.viewmodel;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,7 +83,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         }
         Post post = data.getValue().get(position);
         User user = post.getUser();
-        Log.d("feedPOst user at position", post.getUser().getUserId() + "pos" + position);
+        Log.d("feedPOst user at position", post.getUser().getSpotify_id() + "pos" + position);
         Log.d("postid",post.getPostId());
         holder.username.setText(user.getName());
         holder.likeButton.setText(String.valueOf(post.getLikeCount()));
