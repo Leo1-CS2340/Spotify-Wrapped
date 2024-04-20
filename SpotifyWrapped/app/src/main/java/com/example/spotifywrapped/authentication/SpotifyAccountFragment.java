@@ -47,7 +47,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class SpotifyAccountFragment extends Fragment {
-    private static final String CLIENT_ID = "1b5ff154cb554dbc9e189a18aff5d701";
+    private static final String CLIENT_ID = "d7d5deb771d04355a317b9f405a35847";
     private static final String REDIRECT_URI = "com.example.spotifywrapped://auth";
     private static final int REQUEST_CODE = 69;
     private String access_token, access_code;
@@ -55,7 +55,7 @@ public class SpotifyAccountFragment extends Fragment {
     private Call mCall;
     private Call uCall;
     private Call aCall;
-    private boolean correctSpotifyAccount;
+
     public User currentUser;
 
     public SpotifyAccountFragment() {
@@ -159,7 +159,6 @@ public class SpotifyAccountFragment extends Fragment {
                                         }
                                     }
                                 });
-                                correctSpotifyAccount = true;
                                 userData.put("name", jsonObject.get("display_name"));
                                 userData.put("spotify_id", jsonObject.get("id"));
                                 userData.put("last_updated", java.time.LocalDateTime.now().toString());
@@ -188,7 +187,7 @@ public class SpotifyAccountFragment extends Fragment {
                                                 Log.w("NOOO", "Error writing document", e);
                                             }
                                         });
-                                if (correctSpotifyAccount) {
+
 
                                     mCall.enqueue(new Callback() {
                                         @Override
@@ -207,7 +206,7 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
-                                                int total = (int) jsonObject.get("total");
+                                                int total = (int) jsonObject.get("limit");
                                                 Song[] topFive = new Song[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject track = items.getJSONObject(i);
@@ -264,7 +263,7 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
-                                                int total = (int) jsonObject.get("total");
+                                                int total = (int) jsonObject.get("limit");
                                                 Artist[] topFive = new Artist[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject artist = items.getJSONObject(i);
@@ -328,12 +327,6 @@ public class SpotifyAccountFragment extends Fragment {
                                             }
                                         }
                                     });
-                                }
-
-                            } catch (SpotifyMismatchException e) {
-                                correctSpotifyAccount = false;
-                                Toast.makeText(requireActivity(), "The Spotify account you linked is not connected to this account",
-                                        Toast.LENGTH_SHORT).show();
                             }
                             catch (JSONException e) {
                                 Log.d("JSON", "Failed to parse data: " + e);
