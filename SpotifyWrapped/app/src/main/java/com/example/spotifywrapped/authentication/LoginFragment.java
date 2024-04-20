@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.spotifywrapped.AuthenticationActivity;
 import com.example.spotifywrapped.MainActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.data_classes.User;
@@ -31,7 +32,6 @@ public class LoginFragment extends Fragment {
 
     private TextInputLayout email;
     private TextInputLayout password;
-    public static User currentUser;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -86,8 +86,8 @@ public class LoginFragment extends Fragment {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
                                             Log.d("Hello", "DocumentSnapshot data: " + document.getData());
-                                            currentUser = new User(document);
-                                            Log.d("HELLO", currentUser.toString());
+                                            AuthenticationActivity.currentUser = new User(document);
+                                            Log.d("HELLO", AuthenticationActivity.currentUser.toString());
                                             Intent i = new Intent(getContext(), MainActivity.class);
                                             startActivity(i);
                                         } else {

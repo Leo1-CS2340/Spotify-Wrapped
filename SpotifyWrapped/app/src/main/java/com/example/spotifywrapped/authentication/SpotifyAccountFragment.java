@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.spotifywrapped.AuthenticationActivity;
 import com.example.spotifywrapped.MainActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.custom_exceptions.SpotifyMismatchException;
@@ -47,7 +48,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class SpotifyAccountFragment extends Fragment {
-    private static final String CLIENT_ID = "d7d5deb771d04355a317b9f405a35847";
+    private static final String CLIENT_ID = "1b5ff154cb554dbc9e189a18aff5d701";
     private static final String REDIRECT_URI = "com.example.spotifywrapped://auth";
     private static final int REQUEST_CODE = 69;
     private String access_token, access_code;
@@ -55,8 +56,6 @@ public class SpotifyAccountFragment extends Fragment {
     private Call mCall;
     private Call uCall;
     private Call aCall;
-
-    public User currentUser;
 
     public SpotifyAccountFragment() {
         // Required empty public constructor
@@ -207,6 +206,9 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
                                                 int total = (int) jsonObject.get("limit");
+                                                if ((int) jsonObject.get("total") < total) {
+                                                    total = (int) jsonObject.get("total");
+                                                }
                                                 Song[] topFive = new Song[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject track = items.getJSONObject(i);
@@ -264,6 +266,9 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
                                                 int total = (int) jsonObject.get("limit");
+                                                if ((int) jsonObject.get("total") < total) {
+                                                    total = (int) jsonObject.get("total");
+                                                }
                                                 Artist[] topFive = new Artist[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject artist = items.getJSONObject(i);
@@ -300,8 +305,8 @@ public class SpotifyAccountFragment extends Fragment {
                                                                             DocumentSnapshot document = task.getResult();
                                                                             if (document.exists()) {
                                                                                 Log.d("Hello", "DocumentSnapshot data: " + document.getData());
-                                                                                currentUser = new User(document);
-                                                                                Log.d("HELLO", currentUser.toString());
+                                                                                AuthenticationActivity.currentUser = new User(document);
+                                                                                Log.d("HELLO", AuthenticationActivity.currentUser.toString());
                                                                                 Intent i = new Intent(getContext(), MainActivity.class);
                                                                                 startActivity(i);
                                                                             } else {
