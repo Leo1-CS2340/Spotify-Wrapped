@@ -204,7 +204,7 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
-                                                int total = (int) jsonObject.get("total");
+                                                int total = (int) jsonObject.get("limit");
                                                 Song[] topFive = new Song[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject track = items.getJSONObject(i);
@@ -261,7 +261,7 @@ public class SpotifyAccountFragment extends Fragment {
                                                 FirebaseAuth auth = FirebaseAuth.getInstance();
                                                 FirebaseUser user = auth.getCurrentUser();
                                                 Map<String, Object> userData = new HashMap<>();
-                                                int total = (int) jsonObject.get("total");
+                                                int total = (int) jsonObject.get("limit");
                                                 Artist[] topFive = new Artist[total];
                                                 for (int i = 0; i < total; i++) {
                                                     JSONObject artist = items.getJSONObject(i);
