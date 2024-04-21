@@ -2,15 +2,15 @@ package com.example.spotifywrapped.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.spotifywrapped.AuthenticationActivity;
 import com.example.spotifywrapped.MainActivity;
@@ -35,6 +35,7 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;

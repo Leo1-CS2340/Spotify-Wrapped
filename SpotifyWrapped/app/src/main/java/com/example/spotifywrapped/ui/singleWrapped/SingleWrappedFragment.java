@@ -76,7 +76,7 @@ public class SingleWrappedFragment extends Fragment {
 
         for (int i = 0; i < songs.size(); i++) {
             Song song = songs.get(i);
-            String description = (i + 1) + ". " + song.getName() + " by " + song.getArtist();
+            String description = (i + 1) + ". " + song.getName();
             int textViewId = root.getResources().getIdentifier("textViewSong" + (i + 1), "id", getContext().getPackageName());
             ((TextView) root.findViewById(textViewId)).setText(description);
 
