@@ -23,13 +23,17 @@ import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.authentication.SpotifyAccountFragment;
 import com.example.spotifywrapped.databinding.FragmentAccountBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AccountFragment extends Fragment {
 
@@ -83,7 +87,21 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("users").document(user.getEmail())
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("TAG", "DocumentSnapshot successfully deleted!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("TAG", "Error deleting document", e);
+                            }
+                        });
                 user.delete()
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -93,6 +111,7 @@ public class AccountFragment extends Fragment {
                                 }
                             }
                         });
+
                 Intent i = new Intent(getContext(), AuthenticationActivity.class);
                 startActivity(i);
             }
