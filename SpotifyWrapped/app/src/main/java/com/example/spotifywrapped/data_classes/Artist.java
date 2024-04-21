@@ -12,7 +12,11 @@ public class Artist {
         this("", "", null, 0);
     }
 
-    public Artist(String name, String picture, List<String> genres, long popularity) {
+    public Artist(String name) {
+        this(name, "", null, 0);
+    }
+
+    public Artist(String name, String picture, List<String> genres, int popularity) {
         this.name = name;
         this.picture = picture;
         this.genres = genres;

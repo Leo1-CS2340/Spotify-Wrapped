@@ -14,11 +14,7 @@ import android.widget.Button;
 
 import com.example.spotifywrapped.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link WelcomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class WelcomeFragment extends Fragment {
 
     private Button loginButton;

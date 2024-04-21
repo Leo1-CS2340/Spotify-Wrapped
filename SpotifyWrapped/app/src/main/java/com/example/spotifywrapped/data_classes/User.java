@@ -1,33 +1,42 @@
 package com.example.spotifywrapped.data_classes;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class User {
-    private String name;
     private String profile_picture;
-    private String spotify_id;
     private ArrayList<Song> topFiveSongs;
     private ArrayList<Artist> topFiveArtists;
 
-//    before fixed
-//    public User(DocumentSnapshot userDocument) {
-//        this.name = (String) userDocument.get("name");
-//        this.profile_picture = (String) userDocument.get("profile_picture");
-//        this.spotify_id = (String) userDocument.get("spotify_id");
-//        this.topFiveSongs = (ArrayList<Song>) userDocument.get("topFiveSongs");
-//        this.topFiveArtists = (ArrayList<Artist>) userDocument.get("topFiveArtists");
-//
-//    }
+    private String spotify_id;
+    private String name;
+    private List<Post> posts = new ArrayList<>();
+    private List<User> followers;
+    public List<User> following = new ArrayList<>();
 
-    // After fixed
+    public List<Post> likedPosts = new ArrayList<>();
+
+    private boolean visibility;
+
+    public User(String userId, String name) {
+        this.spotify_id = userId;
+        this.name = name;
+        this.posts = new ArrayList<>();
+        this.likedPosts = new ArrayList<>();
+        this.topFiveSongs = new ArrayList<>();
+        this.topFiveArtists = new ArrayList<>();
+
+    }
+
+
     public User(DocumentSnapshot userDocument) {
         this.name = userDocument.getString("name");
         this.profile_picture = userDocument.getString("profile_picture");
@@ -35,7 +44,6 @@ public class User {
         this.topFiveSongs = convertToSongList(userDocument.get("topFiveSongs"));
         this.topFiveArtists = convertToArtistList(userDocument.get("topFiveArtists"));
     }
-
     private ArrayList<Song> convertToSongList(Object rawData) {
         ArrayList<Song> songs = new ArrayList<>();
         if (rawData instanceof List) {
@@ -70,60 +78,35 @@ public class User {
         return artists;
     }
 
-//    before fixed
-//    public ArrayList<Artist> getTopFiveArtists() {
-//        ArrayList<Artist> totalArtists = new ArrayList<>();
-//        Object[] temp2 = topFiveArtists.toArray();
-//
-//
-//        for (int i = 0; i < temp2.length; i++) {
-//            HashMap<String, Object> temp = (HashMap<String, Object>) temp2[i];
-//            ArrayList<Object> list = new ArrayList<Object>(temp.values());
-//            Artist art = new Artist((String) list.get(2), (String) list.get(3), (List<String>) list.get(0), ((Long) list.get(1)).intValue());
-//            totalArtists.add(art);
-//        }
-//        topFiveArtists = totalArtists;
-//        return topFiveArtists;
-//    }
-
-    // after fixed
-    public ArrayList<Artist> getTopFiveArtists() {
-        return topFiveArtists;
-    }
-
-    //    before fixed
-//    public ArrayList<Song> getTopFiveSongs() {
-//        ArrayList<Song> totalSongs = new ArrayList<>();
-//        Object[] temp2 = topFiveSongs.toArray();
-////        HashMap<String, Object> temp = (HashMap<String, Object>) temp2[0];
-////
-////
-////        ArrayList<Object> list = new ArrayList<Object>(temp.values());
-////        System.out.println(list.get(0)); //mp3 link
-////        System.out.println(list.get(1)); //artist name
-////        System.out.println(list.get(2)); //album name
-////        System.out.println(list.get(3)); //popularity
-////        System.out.println(list.get(4)); //song name
-//
-//
-//        for (int i = 0; i < temp2.length; i++) {
-//            HashMap<String, Object> temp = (HashMap<String, Object>) temp2[i];
-//            ArrayList<Object> list = new ArrayList<Object>(temp.values());
-//            Song sg = new Song((String) list.get(4), (String) list.get(1), (String) list.get(2), (String) list.get(0), ((Long) list.get(3)).intValue());
-//            totalSongs.add(sg);
-//        }
-//        topFiveSongs = totalSongs;
-//
-//        return topFiveSongs;
-//    }
-
-    //after fixed
-    public ArrayList<Song> getTopFiveSongs() {
-        return topFiveSongs;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public void addPost() {
+        this.posts.add(new Post(this));
+    }
+
+    public List<Post> getLikedPosts() {
+        return this.likedPosts;
+    }
+
+    public void addLikedPost(Post post) {
+        likedPosts.add(post);
+    }
+    public void removeLikedPost(Post post) {
+        likedPosts.remove(post);
+    }
+
+    public ArrayList<Artist> getTopFiveArtists() {
+        return topFiveArtists;
     }
 
     public String getProfile_picture() {
@@ -132,6 +115,17 @@ public class User {
 
     public String getSpotify_id() {
         return spotify_id;
+    }
+
+    public ArrayList<Song> getTopFiveSongs() {
+        return topFiveSongs;
+    }
+
+    public void setTopFiveSongs(ArrayList<Song> s) {
+        this.topFiveSongs = s;
+    }
+    public void setTopFiveArtists(ArrayList<Artist> a) {
+        this.topFiveArtists = a;
     }
 
     @Override
