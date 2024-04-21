@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         // After resolving the conflict
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-        R.id.nav_home, R.id.nav_singleWrapped, R.id.nav_account
+                R.id.nav_singleWrapped, R.id.nav_feed, R.id.nav_account
         ).setOpenableLayout(drawer).build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
