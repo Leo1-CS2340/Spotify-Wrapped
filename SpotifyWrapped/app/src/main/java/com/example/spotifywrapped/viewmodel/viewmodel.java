@@ -31,6 +31,10 @@ public class viewmodel extends ViewModel {
         likedPosts.setValue(new ArrayList<>());
     }
 
+    public void resetData() {
+        PostData.setValue(new ArrayList<>());
+    }
+
     public static viewmodel getInstance() {
         if (instance == null) {
             instance = new viewmodel();

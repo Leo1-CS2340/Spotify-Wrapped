@@ -55,6 +55,7 @@ public class UserFeedFragment extends Fragment {
 
     private void setPostData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Log.d("tag", "yes");
         db.collection("users")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -73,6 +74,7 @@ public class UserFeedFragment extends Fragment {
                                 vm.addAll(u.getPosts());
                                 Log.d("vm update","posts added to view model");
                             }
+                            adapter.notifyDataSetChanged();
                             feed.setAdapter(adapter);
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
@@ -102,6 +104,7 @@ public class UserFeedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        vm.resetData();
         if (vm.getPostLiveData().getValue().size() == 0) {
             setPostData();
             Log.d("dummydata","dummydata initialized");
@@ -147,5 +150,10 @@ public class UserFeedFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
